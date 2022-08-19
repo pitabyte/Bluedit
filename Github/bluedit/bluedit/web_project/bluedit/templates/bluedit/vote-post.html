@@ -1,0 +1,44 @@
+{% load static %}
+
+{% if vote_type == 'up' %}
+
+<div class="vote" hx-target="this" hx-swap="outerHTML">
+    <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
+    </div>
+    <div id="vote_count" class="vote-count">
+        {{ post.vote_count }}
+    </div>
+    <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+    </div>
+</div>
+
+{% elif vote_type == 'down' %}
+
+<div class="vote" hx-target="this" hx-swap="outerHTML">
+    <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+    </div>
+    <div id="vote_count" class="vote-count">
+        {{ post.vote_count }}
+    </div>
+    <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
+    </div>
+</div>
+
+{% else %}
+
+<div class="vote" hx-target="this" hx-swap="outerHTML">
+    <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+    </div>
+    <div id="vote_count" class="vote-count">
+        {{ post.vote_count }}
+    </div>
+    <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+    </div>
+</div>
+{% endif %}

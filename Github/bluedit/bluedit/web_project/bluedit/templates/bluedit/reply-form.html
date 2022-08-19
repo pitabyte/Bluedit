@@ -1,0 +1,33 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<div hx-target="this" hx-swap="outerHTML">
+<div class="row">
+        {% if tree_level >= 1 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if tree_level >= 2 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if tree_level >= 3 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if tree_level >= 4 %}
+        <div class="line"div>
+        {% endif %}
+        {% if tree_level >= 5 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if tree_level >= 6 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if tree_level >= 7 %}
+        <div class="line"></div>
+        {% endif %}
+  <div class="col">
+    <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'reply' comment_id %}">
+          {{ commentf.text }}
+        <button class="btn btn-info">Save</button>
+    </form>
+  </div>
+</div>
+</div>

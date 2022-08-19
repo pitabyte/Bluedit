@@ -1,0 +1,82 @@
+{% load static %}
+
+{% for post, vote_type, date, timeunit, comment_count, post_type in zipped %}
+<div id="post-block-{{post.id}}">
+  <div class="row">
+    <div class="vote" hx-target="this" hx-swap="outerHTML">
+      {% if user.is_authenticated %}
+      <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+          {% if vote_type == 'up' %}
+          <a  href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
+          {% else %}
+          <a  href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+          {% endif %}
+      </div>
+      <div id="vote_count" class="vote-count">
+          {{ post.vote_count }}
+      </div>
+      <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+          {% if vote_type == 'down' %}
+          <a  href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
+          {% else %}
+          <a  href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+          {% endif %}
+      </div>
+      {% else %}
+      <div class="vote-top-post">
+          <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+      </div>
+      <div id="vote_count" class="vote-count">
+          {{ post.vote_count }}
+      </div>
+      <div class="vote-bottom-post">
+          <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+      </div>
+      {% endif %}
+  </div>
+      
+  
+
+<div class="col" style="padding-left: 5px;">
+    <li class="list-group-item">
+      <ul class="list-group" style='list-style: none;'>
+        <div class="row">
+          <div class='post-image'>
+            {% if post_type == 'image' %}
+            <a href="{% url 'post' post.id %}"><img src="{{post.image}}" width="90" height="70" alt=""></a>
+            {% elif post_type == 'text' %}
+            <a href="{% url 'post' post.id %}"><img id='icon' style='margin-right: 10px; margin-left: 10px;' src="{% static 'images/text3.ico' %}" width="70" height="70" alt=""></a>
+            {% endif %}
+          </div>
+        <div>
+        <li><a class="title-view" href="{% url 'post' post.id %}">{{post.title}}</a></li>
+        <div class='row'>
+          <li class="option" style="padding-left: 5px;">Posted by 
+            <a id='name' href='{% url "user" post.user.username %}'>{{post.user.username}}</a>
+            {% if timeunit == 'second' %}
+                    {{date}} seconds ago
+                {% elif timeunit == 'minute' %}
+                    {{date}} minutes ago
+                {% elif timeunit == 'hour' %}
+                    {{date}} hours ago
+                {% elif timeunit == 'day' %}
+                    {{date}} days ago
+                {% elif timeunit == 'month' %}
+                    {{date}} months ago
+                {% else %}
+                    {{date}} years ago
+                {% endif %} to 
+                <a id="name" href="{% url 'subbluedit' post.subbluedit %}">b/{{post.subbluedit}}</a></li>
+        </div>
+        <div class="row">
+          <li><a class="comment-option" href="{% url 'post' post.id %}"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments </a></li>
+          <li style="margin-left: 5px;"><a hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+        </div>
+      </div>
+      </ul>
+    </li>
+    </div>
+  </div>
+</div>
+  {% endfor %}
+  <br>

@@ -1,0 +1,22 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+
+<form method="post" action="{% url 'submit' %}">
+    {% csrf_token %}
+    {{ form.title|as_crispy_field }}
+    {{ form.image|as_crispy_field }}
+    <div class="row">
+    <div class="col-4">
+      {{ form.subbluedit|as_crispy_field }}
+    </div>
+  </div>
+    <button type="submit" class="btn btn-info">Save post</button>
+  </form>
+
+
+{% block script %}
+<script src="{% static 'bluedit/user.js' %}"></script>
+{% endblock %}
+{% endblock %}

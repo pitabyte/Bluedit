@@ -1,0 +1,17 @@
+{% if type ==  'leave' %}
+
+<div class="join" hx-target="this" hx-swap="outerHTML">
+    <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+      <a href="#" hx-put="{% url 'join' sub.id 'leave' %}"><button class="btn btn-info">Leave</button></a>
+    </div>
+</div>
+
+{% elif type == 'join' %}
+
+<div class="join" hx-target="this" hx-swap="outerHTML">
+    <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+      <a href="#" hx-put="{% url 'join' sub.id 'join' %}"><button class="btn btn-info">Join</button></a>
+    </div>
+</div>
+
+{% endif %}

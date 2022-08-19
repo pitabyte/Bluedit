@@ -1,0 +1,11 @@
+{% extends 'bluedit/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+
+<h1>{{message}}</h1>
+{% block script %}
+<script src="{% static 'bluedit/user.js' %}"></script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'bluedit/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block body %}
+<span class="title" style="margin-left: 43px;">/b/Register<span>
+{% if message %}
+<div style="color: red;" >{{message}}</div>
+{% endif %}
+<form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" name='username' id="username" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+        <label for="email">Email address:</label>
+        <input type="email" class="form-control" name='email' id="email" aria-describedby="emailHelp" placeholder="Enter email">
+      </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" name='password' id="password" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label for="repassword">Confirm your password:</label>
+        <input type="password" class="form-control" name='repassword' id="repassword" placeholder="Enter password again">
+      </div>
+    <input type="submit">
+</form>
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% load static %}
+
+<div id='comment-block-{{comment.id}}' class="row">
+    {% if user.is_authenticated %}
+    <div hx-target="#comment-block-{{comment.id}}" hx-swap="outerHTML">
+        <div class="vote-top" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            {% if vote_type == 'up' %}
+            <a style='margin-bottom: 20px;' href="#" hx-put="{% url 'vote' 'comment' comment.id 'up' True %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
+            {% else %}
+            <a style='margin-bottom: 20px;' href="#" hx-put="{% url 'vote' 'comment' comment.id 'up' True %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+            {% endif %}
+        </div>     
+        <div class="vote-bottom" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            {% if vote_type == 'down' %}
+            <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'down' True %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
+            {% else %}
+            <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'down' True %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div>
+        <div class="vote-top">
+            <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+        </div>
+        <div class="vote-bottom">
+            <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col" style="padding-left: 5px;">
+        <ul class="list-group-item" style='list-style: none;'>
+            <li class="comment-top"><a id='name' href='{% url "user" comment.user.username %}'>{{comment.user.username}}</a>, 
+                <span>
+                    {% if comment.vote_count == 1 %}
+                    {{comment.vote_count}} point,
+                    {% else %}
+                    {{comment.vote_count}} points
+                    {% endif %}
+                    {% if timeunit == 'second' %}
+                     less than a minute ago
+                    {% elif timeunit == 'minute' %}
+                        {% if date == 1 %}
+                            {{date}} minute ago
+                        {% else %}
+                        {{date}} minutes ago
+                        {% endif %}
+                    {% elif timeunit == 'hour' %}
+                        {% if date == 1 %}
+                            {{date}} hour ago
+                        {% else %}
+                            {{date}} hours ago
+                            {% endif %}
+                    {% elif timeunit == 'day' %}
+                        {% if date == 1 %}
+                            {{date}} day ago
+                        {% else %}
+                            {{date}} days ago
+                            {% endif %}
+                    {% elif timeunit == 'month' %}
+                        {% if date == 1 %}
+                            {{date}} month ago
+                        {% else %}
+                            {{date}} months ago
+                            {% endif %}
+                    {% else %}
+                        {% if date == 1 %}
+                            {{date}} year ago
+                        {% else %}
+                            {{date}} years ago
+                            {% endif %}
+                    {% endif %}
+            </span>
+            </li>
+            <div hx-target="this" hx-swap="innerHTML">
+                <li class="comment-text">{{comment.text}}</li>
+                <div class="row">
+                    <li style="margin-left: 5px;"><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">edit</a></li>
+                    <li><a class='option' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'  href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' comment.id 'comment' %}">delete</a></li>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+        <div id='reply-{{comment.id}}' class="reply">
+        </div>

@@ -1,0 +1,13 @@
+{% extends 'bluedit/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+
+<div style="margin-left: 43px;">/b/All<div>
+{% include 'bluedit/blocks/post-list.html' %}
+
+{% block script %}
+<script src="{% static 'bluedit/user.js' %}"></script>
+{% endblock %}
+{% endblock %}

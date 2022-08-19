@@ -1,0 +1,18 @@
+{% extends 'bluedit/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+
+<span class="title" style="margin-left: 43px;">/b/Create<span>
+
+<form method="post" action="{% url 'subcreate' %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-info">Create</button>
+  </form>
+
+{% block script %}
+<script src="{% static 'bluedit/user.js' %}"></script>
+{% endblock %}
+{% endblock %}

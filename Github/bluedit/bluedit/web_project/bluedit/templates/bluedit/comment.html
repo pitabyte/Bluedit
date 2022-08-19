@@ -1,0 +1,33 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    <div class="row">
+        <div class="vote" hx-target="this" hx-swap="outerHTML">
+            <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+            </div>
+            <div id="vote_count" class="vote-count">
+                0
+            </div>
+            <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+            </div>
+        </div>
+        <div class="col">
+            <ul class="list-group-item" style='list-style: none;'>
+                <li style="font-size: 13px; color: grey;">Posted by {{comment.user.username}}, just now</li>
+                <div hx-target="this" hx-swap="innerHTML">
+                    <li class="comment-text">{{comment.text}}</li>
+                    <div class="row">
+                        <li><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">Edit</a></li>
+                        <li><a class="option" href="#" hx-target='#reply' hx-swap='innerHTML' hx-get="{% url 'reply' comment.id %}">Reply</a></li>
+                    </div>
+                    
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div id='reply' class="reply">
+
+    </div>

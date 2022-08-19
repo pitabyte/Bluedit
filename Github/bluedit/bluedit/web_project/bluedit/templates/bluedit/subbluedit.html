@@ -1,0 +1,26 @@
+{% extends 'bluedit/layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+<div class="row">
+  <span class="title" style="margin-left: 43px;">r/{{sub}}<span>
+  {% if user.is_authenticated %}
+  <div class="join" hx-target="this" hx-swap="outerHTML">
+      <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        {% if type == 'join' %}
+          <a href="#" hx-put="{% url 'join' sub.id 'join' %}"><button class="btn btn-info">Join</button></a>
+        {% elif type == 'leave' %}
+          <a href="#" hx-put="{% url 'join' sub.id 'leave' %}"><button class="btn btn-info">Leave</button></a>
+        {% endif %}
+      </div>
+  </div>
+  {% else %}
+  <a href="{% url 'login' %}"><button class="btn btn-info">Join</button></a>
+  {% endif %}
+</div>
+{% include 'bluedit/blocks/post-list.html' %}
+{% block script %}
+<script src="{% static 'bluedit/user.js' %}"></script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,165 @@
+ul {
+    list-style: none;
+}
+
+.userdate {
+    font-size: 10px;
+    color: grey;
+}
+
+.title {
+    font-size: 25px;
+    color: #4682B4;
+    font-weight: 500;
+    
+}
+
+.title-view {
+    font-size: 22px;
+    color: #4682B4;
+    font-weight: 500;
+}
+
+#name {
+    color: #4682B4;
+    font-weight: 500;
+}
+
+.option {
+        color:rgb(114, 112, 112);
+        margin-left: 10px;
+        font-size:  13px;
+        font-weight: 400;
+}
+
+.option:hover {
+    color:rgb(114, 112, 112);
+}
+
+#arrow {
+
+    transform: rotate(180deg);
+}
+
+.line {
+    border: 1px solid rgb(235, 235, 235);
+    margin-left: 60px;
+}
+
+.vote {
+    padding-top: 0px;
+    margin-left: 10px;  
+
+}
+
+.vote-top {
+    margin-left: 10px;  
+    height: 15px;
+    display: block;
+
+}
+
+.vote-bottom {
+    margin-top: 5px;
+    margin-left: 10px;  
+    height: 15px;
+    display: block;
+}
+
+.vote-top-post {
+    margin-left: 10px;  
+    height: 15px;
+    display: block;
+
+}
+
+.vote-bottom-post {
+    margin-left: 10px;  
+    height: 15px;
+    display: block;
+}
+
+.vote-count-test {
+    color: rgb(114, 112, 112);
+    margin-top: 0px;
+    padding-left: 6px;
+    display: block;
+    text-align: center;
+    width: 30px;
+    font-weight: lighter;
+}
+
+.vote-count {
+    color: rgb(114, 112, 112);
+    padding-top: 7px;
+    padding-left: 6px;
+    display: block;
+    text-align: center;
+    width: 30px;
+    font-weight: 400;
+    font-size: 19px;
+}
+
+#create {
+ font-size: 13px;
+ margin-top: 3px;
+ margin-left: 5px;
+}
+
+
+.reply {
+    width: 100%;
+}
+
+.comment-option {
+    color:rgb(114, 112, 112);
+    font-size:  15px;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.comment-option:hover {
+    color:rgb(114, 112, 112);
+        font-size:  15xpx;
+}
+
+.comment-option-post {
+    color:rgb(114, 112, 112);
+        font-size:  17px;
+        margin-top: 10px;
+}
+
+.comment-text {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+}
+
+#submit-option {
+    margin-bottom: 10px;
+    margin-left: 15px;
+}
+
+.submit-options-text {
+    color:#4682B4;
+}
+
+.post-image {
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+#icon {
+    padding: 10px;
+}
+
+#image {
+    image-resolution: inherit;
+    width: 700px;
+}
+
+.comment-top {
+    color:rgb(114, 112, 112);
+    font-size:  13px;
+}

@@ -1,0 +1,113 @@
+{% extends 'bluedit/layout.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block body %}
+
+
+{% if post %}
+
+<div class="row">
+    {% if user.is_authenticated %}
+    <div class="vote" hx-target="this" hx-swap="outerHTML">
+        <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            {% if vote_type_post == 'up' %}
+            <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
+            {% else %}
+            <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+            {% endif %}
+        </div>
+        <div id="vote_count" class="vote-count">
+            {{ post.vote_count }}
+        </div>
+        <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            {% if vote_type_post == 'down' %}
+            <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
+            {% else %}
+            <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div>
+    <div class="vote">
+        <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+    </div>
+    <div id="vote_count" class="vote-count">
+        {{ post.vote_count }}
+    </div>
+    <div class="vote">
+        <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+    </div>
+    </div>
+    {% endif %}
+    <div class="col">
+        <span class="title">{{post.title}}</span>
+        <div>
+        <span style="font-size: 13px; color: grey;">Posted by {{post.user.username}},
+            {% if timeunit_post == 'second' %}
+                    {{date_post}} seconds ago
+                {% elif timeunit_post == 'minute' %}
+                    {{date_post}} minutes ago
+                {% elif timeunit_post == 'hour' %}
+                    {{date_post}} hours ago
+                {% elif timeunit_post == 'day' %}
+                    {{date_post}} days ago
+                {% elif timeunit_post == 'month' %}
+                    {{date_post}} months ago
+                {% else %}
+                    {{date_post}} years ago
+                {% endif %} {{post.date_post}}</span>
+            </div>
+        {% if post_type == 'image' %}
+        <div>
+            <a href="{% url 'post' post.id %}"><img id='image' src="{{post.image}}" alt=""></a>
+        {% elif post_type == 'text' %}
+            <div class="list-group-item">
+                    {{post.description}}
+        {% endif %}
+        </div>
+        <div class="comment-option-post" style="margin-top: 5px;"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments</div>
+    </div> 
+</div>
+
+<hr>
+
+{% if user.is_authenticated %}
+<div class="col" hx-target="#comment" hx-swap="outerHTML">
+        Comment as <a href="{% url 'user' user.username %}" id='name'>{{user.username}}</a>
+    <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'comment' post.id %}">
+          {{ commentf.text }}
+            <button class="btn btn-info">Save comment</button>
+    </form>
+  </div>
+{% else %}
+<div class="col">
+    <a href="{% url 'login' %}" id='name'>Log in</a> to comment
+<form>
+      {{ commentf.text }}
+</form>
+<a href="{% url 'login' %}" id='name'><button class="btn btn-info">Save comment</button></a>
+</div>
+{% endif %}
+
+<hr>
+
+<div id="comment"></div>
+    
+{% for comment, vote_type, date, timeunit in zipped %}
+    {% include 'bluedit/blocks/comment-block.html' %}
+{% endfor %}
+<br>
+{% else %}
+
+<h2>{{message}}</h2>
+
+{% endif %}
+</div>
+{% block script %}
+<script src="{% static 'bluedit/user.js' %}"></script>
+{% endblock %}
+
+{% endblock %}
