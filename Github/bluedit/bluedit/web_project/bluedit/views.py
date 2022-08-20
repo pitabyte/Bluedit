@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User, Post, PostForm, CommentForm, Comment, Vote, Subbluedit, SubblueditForm, ReplyForm
+from .models import User, Post, PostForm, CommentForm, Comment, Vote, Subbluedit, SubblueditForm, ReplyForm, PostSubForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -68,12 +68,20 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 @login_required(login_url='/login')
-def submit(request):
+def submit(request, sub_name=None):
     if request.method == 'GET':
-        form = PostForm()
-        return render(request, 'bluedit/submit.html', {
-            'form': form
-        })
+        if not sub_name:
+            form = PostForm()
+            return render(request, 'bluedit/submit.html', {
+                'form': form
+            })
+        else:
+            sub = Subbluedit.objects.get(name=sub_name)
+            form = PostSubForm(initial={'subbluedit': sub})
+            return render(request, 'bluedit/submit.html', {
+                'form': form,
+                'sub_name': sub_name
+            })
     elif request.method == 'POST':
         f = PostForm(request.POST)
         if f.is_valid():
@@ -479,15 +487,21 @@ def search(request):
         print(f.errors)
 
 @login_required(login_url='/login')
-def submit_option(request, option):
-    form = PostForm()
+def submit_option(request, option, sub_name=None):
+    if not sub_name:
+        form = PostForm()
+    else:
+        sub = Subbluedit.objects.get(name=sub_name)
+        form = PostSubForm(initial={'subbluedit': sub})
     if option == 'text':
         return render(request, 'bluedit/htmx/submit-text.html', {
-            'form': form
+            'form': form,
+            'sub_name': sub_name
         })
     elif option == 'image':
         return render(request, 'bluedit/htmx/submit-img.html', {
-            'form': form
+            'form': form,
+            'sub_name': sub_name
         })
 
 def user(request, username):

@@ -8,8 +8,13 @@
     {{ form.description|as_crispy_field }}
     <div class="row">
     <div class="col-4">
-      {{ form.subbluedit|as_crispy_field }}
+      {% if sub_name %}
+        <input style="font-size: 20px;" type="text" disabled value="b/{{sub_name}}">
+      {% endif %}
+      
+        {{ form.subbluedit|as_crispy_field }}
     </div>
+    
   </div>
     <button type="submit" class="btn btn-info">Save post</button>
   </form>

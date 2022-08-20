@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="row">
-  <span class="title" style="margin-left: 43px;">r/{{sub}}<span>
+  <span class="title" style="margin-left: 43px;">r/{{sub}}</span>
   {% if user.is_authenticated %}
   <div class="join" hx-target="this" hx-swap="outerHTML">
       <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -15,9 +15,14 @@
         {% endif %}
       </div>
   </div>
+  <div>
   {% else %}
   <a href="{% url 'login' %}"><button class="btn btn-info">Join</button></a>
   {% endif %}
+  {% if user.is_authenticated %}
+    <a style='margin-left: 10px;' href="{% url 'submit' sub.name %}"><button class="btn btn-info">Submit</button></a>
+  {% endif %}
+  </div>
 </div>
 {% include 'bluedit/blocks/post-list.html' %}
 {% block script %}

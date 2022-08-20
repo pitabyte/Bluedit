@@ -59,6 +59,25 @@ class PostForm(ModelForm):
             'title': forms.TextInput(attrs={'placeholder': 'Title...'}),
             'image': forms.TextInput(attrs={'placeholder': 'Image url...'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].label = ''
+        self.fields['description'].label = ''
+        self.fields['image'].label = ''
+        self.fields['subbluedit'].label = ''
+
+class PostSubForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'description', 'subbluedit', 'image']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Description...'}),
+            'title': forms.TextInput(attrs={'placeholder': 'Title...'}),
+            'image': forms.TextInput(attrs={'placeholder': 'Image url...'}),
+            'subbluedit': forms.TextInput(attrs={'hidden': True})
+        }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].label = ''

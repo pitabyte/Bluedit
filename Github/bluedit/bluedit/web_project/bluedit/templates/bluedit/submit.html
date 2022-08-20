@@ -8,8 +8,13 @@
 
 <div class="submit-options">
   <div class="row">
-    <button id='submit-option' hx-get="{% url 'submit_option' 'text' %}" hx-target="#submit-form" class="btn btn-light"><span class="submit-options-text">Text</span></button>
-    <button id='submit-option' hx-get="{% url 'submit_option' 'image' %}" hx-target="#submit-form" class="btn btn-light"><span class="submit-options-text"></class>Image</span></button>
+    {% if sub_name %}
+      <button id='submit-option' hx-get="{% url 'submit_option' 'text' sub_name %}" hx-target="#submit-form" class="btn btn-light"><span class="submit-options-text">Text</span></button>
+      <button id='submit-option' hx-get="{% url 'submit_option' 'image' sub_name %}" hx-target="#submit-form" class="btn btn-light"><span class="submit-options-text"></class>Image</span></button>
+    {% else %}
+      <button id='submit-option' hx-get="{% url 'submit_option' 'text' %}" hx-target="#submit-form" class="btn btn-light"><span class="submit-options-text">Text</span></button>
+      <button id='submit-option' hx-get="{% url 'submit_option' 'image'  %}" hx-target="#submit-form" class="btn btn-light"><span class="submit-options-text"></class>Image</span></button>
+    {% endif %}
   </div>
   
 </div>
@@ -22,6 +27,9 @@
     <div class="row">
     <div class="col-4">
       {{ form.subbluedit|as_crispy_field }}
+      {% if sub_name %}
+        <input style="font-size: 20px;" type="text" disabled value="b/{{sub_name}}">
+      {% endif %}
     </div>
   </div>
     <button type="submit" class="btn btn-info">Save post</button>
