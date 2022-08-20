@@ -144,6 +144,9 @@ def post(request, post_id):
             vote_type_post = False
     comment_count = Comment.objects.filter(post=post).count()
     page = 'post'
+    sub = Subbluedit.objects.get(pk=post.subbluedit.id)
+    type = join_or_leave(request, sub.name)
+    member_count = post.subbluedit.members.all().count()
     return render(request, 'bluedit/post4.html', {
             'post': post,
             'post_type': post_type,
@@ -155,7 +158,10 @@ def post(request, post_id):
             'date_post': date_post,
             'timeunit_post': timeunit_post,
             'comment_count': comment_count,
-            'page': page
+            'page': page,
+            'type': type,
+            'member_count': member_count,
+            'sub': sub
         })
 
 def comment(request, post_id):
@@ -385,11 +391,13 @@ def subbluedit(request, name):
         else:
             type = 'join'
         zipped = post_list(request, posts)
+        member_count = sub.members.all().count()
         return render(request, 'bluedit/subbluedit.html', {
                     'sub': sub,
                     'posts': posts,
                     'type': type,
-                    'zipped': zipped
+                    'zipped': zipped,
+                    'member_count': member_count
                 })
     else:
         message = "Sorry, this page doesn't exist"
@@ -406,10 +414,12 @@ def join(request, sub_id, type):
             sub.members.add(user)
             sub.save()
             type = 'leave'
+            member_count = sub.members.all().count()
             return render(request, 'bluedit/join.html', {
                 'post': post,
                 'type': type,
-                'sub': sub
+                'sub': sub,
+                'member_count': member_count
             })
         else:
             message = "You are already a member of this subbluedit"
@@ -420,10 +430,12 @@ def join(request, sub_id, type):
         if user in sub.members.all():
             sub.members.remove(user)
             type = 'join'
+            member_count = sub.members.all().count()
             return render(request, 'bluedit/join.html', {
                 'post': post,
                 'type': type,
-                'sub': sub
+                'sub': sub,
+                'member_count': member_count
             })
         else:
             message = "You are not a member of this subbluedit"
@@ -729,3 +741,20 @@ def get_comment(request, comment):
     timeunit = touple[1][0]
     
     return vote_type, date, timeunit
+
+def join_or_leave(request, name):
+    check = Subbluedit.objects.filter(name=name).exists()
+    if check:
+        sub = Subbluedit.objects.get(name=name)
+        user_id = request.user.id
+        if request.user.is_authenticated:
+            user = User.objects.get(pk=user_id)
+            if user not in sub.members.all():
+                type = 'join'
+            else:
+                type = 'leave'
+        else:
+            type = 'join'
+        return type
+    else:
+        return False

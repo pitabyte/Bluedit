@@ -1,17 +1,21 @@
-{% if type ==  'leave' %}
 
-<div class="join" hx-target="this" hx-swap="outerHTML">
-    <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-      <a href="#" hx-put="{% url 'join' sub.id 'leave' %}"><button class="btn btn-info">Leave</button></a>
+                
+
+<div id='join_leave_target'>
+  <span style="font-weight: 500; margin-left: 15px; color: rgb(78, 78, 78);">Members: </span> <span style="font-weight: 400; margin-left: 5px;"> {{member_count}}</span>
+  {% if user.is_authenticated %}
+    <div class="join" hx-target="#join_leave_target" hx-swap="outerHTML">
+      <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+      {% if type == 'join' %}
+          <a href="#" hx-put="{% url 'join' sub.id 'join' %}"><button id='join_leave' class="btn btn-outline-info">Join</button></a>
+      {% elif type == 'leave' %}
+          <a href="#" hx-put="{% url 'join' sub.id 'leave' %}"><button id='join_leave' class="btn btn-info">Leave</button></a>
+      {% endif %}
+      </div>
     </div>
+  {% else %}
+      <a href="{% url 'login' %}"><button id='join_leave' class="btn btn-outline-info">Join</button></a>
+  {% endif %}
 </div>
 
-{% elif type == 'join' %}
-
-<div class="join" hx-target="this" hx-swap="outerHTML">
-    <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-      <a href="#" hx-put="{% url 'join' sub.id 'join' %}"><button class="btn btn-info">Join</button></a>
-    </div>
-</div>
-
-{% endif %}
+                  

@@ -163,3 +163,26 @@ ul {
     color:rgb(114, 112, 112);
     font-size:  13px;
 }
+
+.card {
+    height: 400px;
+    display: block;
+    width: 300px;
+
+}
+
+#card {
+    margin-top: 10px;
+}
+
+#join_leave {
+    position: absolute;
+    bottom: 60px;
+    width: 250px;
+    left: 20px;
+    font-size: 15px;
+}
+
+.post-list {
+    margin-top: 10px;
+}

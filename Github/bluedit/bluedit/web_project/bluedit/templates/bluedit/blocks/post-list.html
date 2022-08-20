@@ -1,5 +1,6 @@
 {% load static %}
 
+<div class="post-list">
 {% for post, vote_type, date, timeunit, comment_count, post_type in zipped %}
 <div id="post-block-{{post.id}}">
   <div class="row">
@@ -80,3 +81,4 @@
 </div>
   {% endfor %}
   <br>
+</div>
