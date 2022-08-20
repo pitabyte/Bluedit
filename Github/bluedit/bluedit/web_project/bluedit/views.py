@@ -71,13 +71,13 @@ def logout_view(request):
 def submit(request, sub_name=None):
     if request.method == 'GET':
         if not sub_name:
-            form = PostForm()
+            form = PostForm(initial={'image': 'http://www.dummy.url'})
             return render(request, 'bluedit/submit.html', {
                 'form': form
             })
         else:
             sub = Subbluedit.objects.get(name=sub_name)
-            form = PostSubForm(initial={'subbluedit': sub})
+            form = PostSubForm(initial={'subbluedit': sub, 'image': 'http://www.dummy.url'})
             return render(request, 'bluedit/submit.html', {
                 'form': form,
                 'sub_name': sub_name
@@ -89,11 +89,12 @@ def submit(request, sub_name=None):
             user_id = request.user.id
             user = User.objects.get(pk=user_id)
             post.user = user
+            if post.image == 'http://www.dummy.url':
+                post.image = None
+            elif post.description == 'http://www.dummy.url':
+                post.description = None
             post.save()
-            return render(request, 'bluedit/index.html', {
-                'f': f,
-                'post': post
-            })
+            return HttpResponseRedirect(reverse("post", args=[post.id]))
         else:
             print(f.errors.as_text())
 
@@ -488,17 +489,22 @@ def search(request):
 
 @login_required(login_url='/login')
 def submit_option(request, option, sub_name=None):
-    if not sub_name:
-        form = PostForm()
-    else:
-        sub = Subbluedit.objects.get(name=sub_name)
-        form = PostSubForm(initial={'subbluedit': sub})
     if option == 'text':
+        if not sub_name:
+            form = PostForm(initial={'image': 'http://www.dummy.url'})
+        else:
+            sub = Subbluedit.objects.get(name=sub_name)
+            form = PostSubForm(initial={'subbluedit': sub, 'image': 'http://www.dummy.url'})
         return render(request, 'bluedit/htmx/submit-text.html', {
             'form': form,
             'sub_name': sub_name
         })
     elif option == 'image':
+        if not sub_name:
+            form = PostForm(initial={'description': 'http://www.dummy.url'})
+        else:
+            sub = Subbluedit.objects.get(name=sub_name)
+            form = PostSubForm(initial={'subbluedit': sub, 'description': 'http://www.dummy.url'})
         return render(request, 'bluedit/htmx/submit-img.html', {
             'form': form,
             'sub_name': sub_name

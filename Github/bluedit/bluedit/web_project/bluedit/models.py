@@ -19,8 +19,8 @@ class Subbluedit(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    description = models.CharField(max_length=500, null=True, blank=True)
-    image = models.CharField(max_length=500, null=True, blank=True)
+    description = models.CharField(max_length=500, null=True)
+    image = models.URLField(null=True)
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     subbluedit = models.ForeignKey(Subbluedit, on_delete=models.CASCADE, related_name='posts')
@@ -57,7 +57,7 @@ class PostForm(ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Description...'}),
             'title': forms.TextInput(attrs={'placeholder': 'Title...'}),
-            'image': forms.TextInput(attrs={'placeholder': 'Image url...'})
+            'image': forms.URLInput(attrs={'placeholder': 'Image url...'})
         }
 
     def __init__(self, *args, **kwargs):
@@ -74,7 +74,7 @@ class PostSubForm(ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Description...'}),
             'title': forms.TextInput(attrs={'placeholder': 'Title...'}),
-            'image': forms.TextInput(attrs={'placeholder': 'Image url...'}),
+            'image': forms.URLInput(attrs={'placeholder': 'Image url...'}),
             'subbluedit': forms.TextInput(attrs={'hidden': True})
         }
 
