@@ -479,10 +479,7 @@ def reply(request, comment_id):
                     'date': date,
                     'timeunit': timeunit
                 })
-            return render(request, 'bluedit/reply.html', {
-                'reply': reply,
-                'comment_id': comment_id
-            })
+        
         else:
             print(f.errors)
 

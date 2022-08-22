@@ -9,7 +9,7 @@
 {% if post %}
 
 <div class="row">
-    <div class="col">
+    <div class="col-11">
         <div class="row">
             {% if user.is_authenticated %}
             {% if vote_type_post == 'up' %}
@@ -67,7 +67,7 @@
                 </div>
             </div>
             {% endif %}
-            <div class="col">
+            <div class="col-11">
                 <div class="title">{{post.title}}</div>
                 <span style="font-size: 13px; color: grey;">Posted by <a href="{% url 'user' post.user.username %}" id='name'>{{post.user.username}}</a>,
                     {% if timeunit_post == 'second' %}
@@ -83,6 +83,13 @@
                         {% else %}
                             {{date_post}} years ago
                         {% endif %} {{post.date_post}}</span>
+                {% if user.is_authenticated %}
+                    {% if request.user == post.user %}
+                        <div>
+                            <a style='margin-left: 0px;' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+                        </div>
+                    {% endif %}
+                {% endif %}
                 {% if post_type == 'image' %}
                 <div style="margin-top: 5px;">
                     <a href="{{post.image}}"><img id='image' src="{{post.image}}" alt=""></a>
@@ -91,6 +98,7 @@
                             {{post.description}}
                 {% endif %}
                 </div>
+
                 <div class="comment-option-post" style="margin-top: 5px;"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments</div>
             </div> 
         </div>
@@ -128,7 +136,9 @@
         <h2>{{message}}</h2>
         {% endif %}
     </div>
+    <div class="col-1">
     {% include 'bluedit/blocks/card-block-join.html' %}
+    </div>
 </span>
 </div>
 

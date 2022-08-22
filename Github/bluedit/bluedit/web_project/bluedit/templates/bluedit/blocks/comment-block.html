@@ -1,5 +1,5 @@
 {% load static %}
-
+<div class="col">
 <div id='comment-block-{{comment.id}}' class="row">
         {% if comment.tree_level >= 1 %}
         <div class="line"></div>
@@ -19,6 +19,7 @@
         {% if comment.tree_level >= 6 %}
         <div class="line"></div>
         {% endif %}
+    <div>
     {% if user.is_authenticated %}
     <div hx-target="#comment-block-{{comment.id}}" hx-swap="outerHTML">
         <div class="vote-top"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -46,8 +47,28 @@
         </div>
     </div>
     {% endif %}
+    </div>
+    {% if comment.tree_level == 0 %}
+    <div class="col-11" style="padding-left: 5px;">
 
-    <div class="col" style="padding-left: 5px;">
+    {% elif comment.tree_level == 1 %}
+    <div class="col-10" style="padding-left: 5px;">
+
+    {% elif comment.tree_level == 2 %}
+    <div class="col-9" style="padding-left: 5px; overflow-wrap: break-word;">
+
+    {% elif comment.tree_level == 3 %}
+    <div class="col-8" style="padding-left: 5px; overflow-wrap: break-word;">
+
+    {% elif comment.tree_level == 4 %}
+    <div class="col-7" style="padding-left: 5px; overflow-wrap: break-word;">
+ 
+    {% elif comment.tree_level == 5 %}
+    <div class="col-6" style="padding-left: 5px; overflow-wrap: break-word;">
+
+    {% elif comment.tree_level == 6 %}
+    <div class="col-5" style="padding-left: 5px; overflow-wrap: break-word;">
+    {% endif %}
         <ul class="list-group-item" style='list-style: none;'>
             <li class="comment-top"><a id='name' href='{% url "user" comment.user.username %}'>{{comment.user.username}}</a>, 
                 <span>
@@ -94,13 +115,19 @@
             <div hx-target="this" hx-swap="innerHTML">
                 <li class="comment-text">{{comment.text}}</li>
                 <div class="row">
-                    <li style="margin-left: 5px;"><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">edit</a></li>
                     <li><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='innerHTML' hx-get="{% url 'reply' comment.id %}">reply</a></li>
-                    <li><a class='option' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'  href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' comment.id 'comment' %}">delete</a></li>
-                </div>
+                    {% if user.is_authenticated %}
+                        {% if request.user == comment.user %}
+                            <li style="margin-left: 5px;"><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">edit</a></li>
+                            <li><a class='option' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'  href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' comment.id 'comment' %}">delete</a></li>
+                        {% endif %}
+                    {% endif %}
+                </div> 
             </div>
         </ul>
     </div>
+
 </div>
         <div id='reply-{{comment.id}}' class="reply">
         </div>
+    </div>

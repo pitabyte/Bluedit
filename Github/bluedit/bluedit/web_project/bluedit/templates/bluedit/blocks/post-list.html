@@ -74,7 +74,12 @@
         </div>
         <div class="row">
           <li><a class="comment-option" href="{% url 'post' post.id %}"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments </a></li>
-          <li style="margin-left: 5px;"><a hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+          {% if user.is_authenticated %}
+            {% if request.user == post.user %}
+              <li style="margin-left: 5px;"><a hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+            {% endif %}
+          {% endif %}
+                  
         </div>
       </div>
       </ul>

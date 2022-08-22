@@ -3,7 +3,7 @@
 
 <div id='join_leave_target'>
   <div class="card-header" style="border-color: rgb(71, 209, 233);">
-    <div style="font-weight: 500; color: rgb(78, 78, 78);">b/{{sub.name}}</div>
+    <div style="font-weight: 500; color: rgb(78, 78, 78);"><a class='sub-link' style="margin-left: 0px;" href='{% url "subbluedit" sub.name %}'>b/{{sub.name}}</a></div>
     <div style="font-size: 15px; color:rgb(114, 112, 112);">{{member_count}} {% if member_count == 1 %} member {% else %} members {% endif %}</div>
   </div>
   <div class='card-text' style="font-weight: 500; ">About:</div>
