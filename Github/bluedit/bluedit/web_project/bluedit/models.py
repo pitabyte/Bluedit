@@ -9,8 +9,10 @@ class User(AbstractUser):
 
 class Subbluedit(models.Model):
     name = models.CharField(max_length=16, unique=True)
+    description = models.CharField(max_length=128)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     members = models.ManyToManyField(User, default=None, related_name='subs')
+    member_count = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -18,8 +20,8 @@ class Subbluedit(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=500, null=True)
+    title = models.CharField(max_length=64)
+    description = models.CharField(max_length=512, null=True)
     image = models.URLField(null=True)
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
@@ -29,7 +31,7 @@ class Post(models.Model):
         ordering = ['-date']
 
 class Comment(models.Model):
-    text = models.CharField(max_length=100,)
+    text = models.CharField(max_length=512)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     date = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
@@ -48,7 +50,16 @@ class Vote(models.Model):
 class SubblueditForm(ModelForm):
     class Meta:
         model = Subbluedit
-        fields = ['name']
+        fields = ['name', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Description'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Subbluedit name'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].label = ''
+        self.fields['description'].label = ''
 
 class PostForm(ModelForm):
     class Meta:

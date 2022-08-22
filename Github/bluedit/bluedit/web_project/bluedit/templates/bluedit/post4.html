@@ -68,11 +68,10 @@
             </div>
             {% endif %}
             <div class="col">
-                <span class="title">{{post.title}}</span>
-                <div>
+                <div class="title">{{post.title}}</div>
                 <span style="font-size: 13px; color: grey;">Posted by <a href="{% url 'user' post.user.username %}" id='name'>{{post.user.username}}</a>,
                     {% if timeunit_post == 'second' %}
-                            {{date_post}} seconds ago
+                    less than a minute ago
                         {% elif timeunit_post == 'minute' %}
                             {{date_post}} minutes ago
                         {% elif timeunit_post == 'hour' %}
@@ -84,12 +83,11 @@
                         {% else %}
                             {{date_post}} years ago
                         {% endif %} {{post.date_post}}</span>
-                    </div>
                 {% if post_type == 'image' %}
                 <div style="margin-top: 5px;">
                     <a href="{{post.image}}"><img id='image' src="{{post.image}}" alt=""></a>
                 {% elif post_type == 'text' %}
-                    <div class="list-group-item">
+                    <div id='post-description' class="list-group-item">
                             {{post.description}}
                 {% endif %}
                 </div>
@@ -130,19 +128,7 @@
         <h2>{{message}}</h2>
         {% endif %}
     </div>
-    <div class="col-1">
-        <div id='card' class="card border-info" style="max-width: 18rem; margin-left: 50px;">
-            <div class="card-header" style="border-color: rgb(71, 209, 233);">
-                    <div style="font-weight: 400; color: rgb(78, 78, 78);">b/{{sub.name}}</div>
-            </div class='card-body'>
-                    {% include 'bluedit/join.html' %}
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'submit' sub.name %}"><button style='bottom: 10px;' id='join_leave' class="btn btn-info">Submit </button></a>
-                {% else %}
-                    <a href="{% url 'login' %}"><button style='bottom: 10px;' id='join_leave' class="btn btn-info">Submit </button></a>
-                {% endif %}
-        </div>
-    </div>
+    {% include 'bluedit/blocks/card-block-join.html' %}
 </span>
 </div>
 

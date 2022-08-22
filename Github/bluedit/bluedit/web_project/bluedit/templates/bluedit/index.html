@@ -4,10 +4,15 @@
 
 {% block body %}
 
-<div style="margin-left: 43px;">/b/All<div>
 
 
-{% include 'bluedit/blocks/post-list.html' %}
+<div class="row">
+    <div class="post">
+    {% include 'bluedit/blocks/post-list.html' %}
+    </div>
+    {% include 'bluedit/blocks/card-block-index.html' %}
+</div>
+
 
 </div>
 

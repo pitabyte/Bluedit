@@ -19,8 +19,11 @@ def index(request):
     comment_count = []
     post_type = []
     zipped = post_list(request, posts)
+    subs = Subbluedit.objects.all().order_by('-member_count')[:5]
     return render(request, 'bluedit/index.html', {
             'zipped': zipped,
+            'subs': subs,
+
     })
 
 def register(request):
@@ -412,6 +415,7 @@ def join(request, sub_id, type):
     if type == 'join':
         if user not in sub.members.all():
             sub.members.add(user)
+            sub.member_count += 1
             sub.save()
             type = 'leave'
             member_count = sub.members.all().count()
@@ -429,6 +433,8 @@ def join(request, sub_id, type):
     elif type == 'leave':
         if user in sub.members.all():
             sub.members.remove(user)
+            sub.member_count -= 1
+            sub.save()
             type = 'join'
             member_count = sub.members.all().count()
             return render(request, 'bluedit/join.html', {

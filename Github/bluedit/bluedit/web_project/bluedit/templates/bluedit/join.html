@@ -2,7 +2,12 @@
                 
 
 <div id='join_leave_target'>
-  <span style="font-weight: 500; margin-left: 15px; color: rgb(78, 78, 78);">Members: </span> <span style="font-weight: 400; margin-left: 5px;"> {{member_count}}</span>
+  <div class="card-header" style="border-color: rgb(71, 209, 233);">
+    <div style="font-weight: 500; color: rgb(78, 78, 78);">b/{{sub.name}}</div>
+    <div style="font-size: 15px; color:rgb(114, 112, 112);">{{member_count}} {% if member_count == 1 %} member {% else %} members {% endif %}</div>
+  </div>
+  <div class='card-text' style="font-weight: 500; ">About:</div>
+  <div class='card-text' style="font-weight: 400; margin-right: 18px; justify-content: center;"> {{sub.description}}</div>
   {% if user.is_authenticated %}
     <div class="join" hx-target="#join_leave_target" hx-swap="outerHTML">
       <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
