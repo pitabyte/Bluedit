@@ -58,18 +58,38 @@
           <li class="option" style="padding-left: 5px;">Posted by 
             <a id='name' href='{% url "user" post.user.username %}'>{{post.user.username}}</a>
             {% if timeunit == 'second' %}
-                    {{date}} seconds ago
-                {% elif timeunit == 'minute' %}
-                    {{date}} minutes ago
-                {% elif timeunit == 'hour' %}
-                    {{date}} hours ago
-                {% elif timeunit == 'day' %}
-                    {{date}} days ago
-                {% elif timeunit == 'month' %}
-                    {{date}} months ago
-                {% else %}
-                    {{date}} years ago
-                {% endif %} to 
+                     less than a minute ago
+                    {% elif timeunit == 'minute' %}
+                        {% if date == 1 %}
+                            {{date}} minute ago
+                        {% else %}
+                        {{date}} minutes ago
+                        {% endif %}
+                    {% elif timeunit == 'hour' %}
+                        {% if date == 1 %}
+                            {{date}} hour ago
+                        {% else %}
+                            {{date}} hours ago
+                            {% endif %}
+                    {% elif timeunit == 'day' %}
+                        {% if date == 1 %}
+                            {{date}} day ago
+                        {% else %}
+                            {{date}} days ago
+                            {% endif %}
+                    {% elif timeunit == 'month' %}
+                        {% if date == 1 %}
+                            {{date}} month ago
+                        {% else %}
+                            {{date}} months ago
+                            {% endif %}
+                    {% else %}
+                        {% if date == 1 %}
+                            {{date}} year ago
+                        {% else %}
+                            {{date}} years ago
+                            {% endif %}
+                    {% endif %} to 
                 <a id="name" href="{% url 'subbluedit' post.subbluedit %}">b/{{post.subbluedit}}</a></li>
         </div>
         <div class="row">

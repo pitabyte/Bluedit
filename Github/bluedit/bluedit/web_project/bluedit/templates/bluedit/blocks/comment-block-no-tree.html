@@ -34,7 +34,7 @@
             <li class="comment-top"><a id='name' href='{% url "user" comment.user.username %}'>{{comment.user.username}}</a>, 
                 <span>
                     {% if comment.vote_count == 1 %}
-                    {{comment.vote_count}} point,
+                    {{comment.vote_count}} point
                     {% else %}
                     {{comment.vote_count}} points
                     {% endif %}
