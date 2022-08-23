@@ -9,102 +9,141 @@
 {% if post %}
 
 <div class="row">
-    {% if user.is_authenticated %}
-    <div class="vote" hx-target="this" hx-swap="outerHTML">
-        <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <div class="col-11">
+        <div class="row">
+            {% if user.is_authenticated %}
             {% if vote_type_post == 'up' %}
-            <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
-            {% else %}
-            <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
-            {% endif %}
-        </div>
-        <div id="vote_count" class="vote-count">
-            {{ post.vote_count }}
-        </div>
-        <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-            {% if vote_type_post == 'down' %}
-            <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
-            {% else %}
-            <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
-            {% endif %}
-        </div>
-    </div>
-    {% else %}
-    <div>
-    <div class="vote">
-        <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
-    </div>
-    <div id="vote_count" class="vote-count">
-        {{ post.vote_count }}
-    </div>
-    <div class="vote">
-        <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
-    </div>
-    </div>
-    {% endif %}
-    <div class="col">
-        <span class="title">{{post.title}}</span>
-        <div>
-        <span style="font-size: 13px; color: grey;">Posted by {{post.user.username}},
-            {% if timeunit_post == 'second' %}
-                    {{date_post}} seconds ago
-                {% elif timeunit_post == 'minute' %}
-                    {{date_post}} minutes ago
-                {% elif timeunit_post == 'hour' %}
-                    {{date_post}} hours ago
-                {% elif timeunit_post == 'day' %}
-                    {{date_post}} days ago
-                {% elif timeunit_post == 'month' %}
-                    {{date_post}} months ago
-                {% else %}
-                    {{date_post}} years ago
-                {% endif %} {{post.date_post}}</span>
+
+            <div class="vote" hx-target="this" hx-swap="outerHTML">
+                <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
+                </div>
+                <div id="vote_count" class="vote-count">
+                    {{ post.vote_count }}
+                </div>
+                <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+                </div>
             </div>
-        {% if post_type == 'image' %}
-        <div>
-            <a href="{% url 'post' post.id %}"><img id='image' src="{{post.image}}" alt=""></a>
-        {% elif post_type == 'text' %}
-            <div class="list-group-item">
-                    {{post.description}}
-        {% endif %}
+            
+            {% elif vote_type_post == 'down' %}
+            
+            <div class="vote" hx-target="this" hx-swap="outerHTML">
+                <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+                </div>
+                <div id="vote_count" class="vote-count">
+                    {{ post.vote_count }}
+                </div>
+                <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
+                </div>
+            </div>
+            
+            {% else %}
+            
+            <div class="vote" hx-target="this" hx-swap="outerHTML">
+                <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'post' post.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+                </div>
+                <div id="vote_count" class="vote-count">
+                    {{ post.vote_count }}
+                </div>
+                <div class="vote-bottom-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                <a href="#" hx-put="{% url 'vote' 'post' post.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <div>
+                <div class="vote-top-post">
+                    <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+                </div>
+                <div id="vote_count" class="vote-count">
+                    {{ post.vote_count }}
+                </div>
+                <div class="vote-bottom-post">
+                    <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-11">
+                <div class="title">{{post.title}}</div>
+                <span style="font-size: 13px; color: grey;">Posted by <a href="{% url 'user' post.user.username %}" id='name'>{{post.user.username}}</a>,
+                    {% if timeunit_post == 'second' %}
+                    less than a minute ago
+                        {% elif timeunit_post == 'minute' %}
+                            {{date_post}} minutes ago
+                        {% elif timeunit_post == 'hour' %}
+                            {{date_post}} hours ago
+                        {% elif timeunit_post == 'day' %}
+                            {{date_post}} days ago
+                        {% elif timeunit_post == 'month' %}
+                            {{date_post}} months ago
+                        {% else %}
+                            {{date_post}} years ago
+                        {% endif %} {{post.date_post}}</span>
+                {% if user.is_authenticated %}
+                    {% if request.user == post.user %}
+                        <div>
+                            <a style='margin-left: 0px;' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% if post_type == 'image' %}
+                <div style="margin-top: 5px;">
+                    <a href="{{post.image}}"><img id='image' src="{{post.image}}" alt=""></a>
+                {% elif post_type == 'text' %}
+                    <div id='post-description' class="list-group-item">
+                            {{post.description}}
+                {% endif %}
+                </div>
+
+                <div class="comment-option-post" style="margin-top: 5px;"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments</div>
+            </div> 
         </div>
-        <div class="comment-option-post" style="margin-top: 5px;"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments</div>
-    </div> 
+
+        <hr>
+
+        {% if user.is_authenticated %}
+        <div class="col" hx-target="#comment" hx-swap="outerHTML">
+                Comment as <a href="{% url 'user' user.username %}" id='name'>{{user.username}}</a>
+            <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'comment' post.id %}">
+                {{ commentf.text }}
+                    <button style='margin-top: 10px;' class="btn btn-outline-info">Save comment</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="col">
+            <a href="{% url 'login' %}" id='name'>Log in</a> to comment
+        <form>
+            {{ commentf.text }}
+        </form>
+        <a href="{% url 'login' %}" id='name'><button class="btn btn-info">Save comment</button></a>
+        </div>
+        {% endif %}
+
+        <hr>
+
+        <div id="comment"></div>
+            
+        {% for comment, vote_type, date, timeunit in zipped %}
+            {% include 'bluedit/blocks/comment-block.html' %}
+        {% endfor %}
+        <br>
+        {% else %}
+
+        <h2>{{message}}</h2>
+        {% endif %}
+    </div>
+    <div class="col-1">
+    {% include 'bluedit/blocks/card-block-join.html' %}
+    </div>
+</span>
 </div>
 
-<hr>
 
-{% if user.is_authenticated %}
-<div class="col" hx-target="#comment" hx-swap="outerHTML">
-        Comment as <a href="{% url 'user' user.username %}" id='name'>{{user.username}}</a>
-    <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'comment' post.id %}">
-          {{ commentf.text }}
-            <button class="btn btn-info">Save comment</button>
-    </form>
-  </div>
-{% else %}
-<div class="col">
-    <a href="{% url 'login' %}" id='name'>Log in</a> to comment
-<form>
-      {{ commentf.text }}
-</form>
-<a href="{% url 'login' %}" id='name'><button class="btn btn-info">Save comment</button></a>
-</div>
-{% endif %}
 
-<hr>
-
-<div id="comment"></div>
-    
-{% for comment, vote_type, date, timeunit in zipped %}
-    {% include 'bluedit/blocks/comment-block.html' %}
-{% endfor %}
-<br>
-{% else %}
-
-<h2>{{message}}</h2>
-
-{% endif %}
 </div>
 {% block script %}
 <script src="{% static 'bluedit/user.js' %}"></script>

@@ -16,9 +16,9 @@
 <div hx-target="this" hx-swap="innerHTML">
     <li class="comment-text">{{comment.text}}</li>
     <div class="row">
-        <li style="margin-left: 5px;"><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">Edit</a></li>
-        <li><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='innerHTML' hx-get="{% url 'reply' comment.id %}">Reply</a></li>
-        <li><a class='option' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'  href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' comment.id 'comment' %}">Delete</a></li>
+        <li style="margin-left: 5px;"><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">edit</a></li>
+        <li><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='innerHTML' hx-get="{% url 'reply' comment.id %}">reply</a></li>
+        <li><a class='option' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'  href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' comment.id 'comment' %}">delete</a></li>
     </div>
 </div>
 {% endif %}

@@ -86,7 +86,11 @@
                 {% if user.is_authenticated %}
                     {% if request.user == post.user %}
                         <div>
-                            <a style='margin-left: 0px;' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+                            <a style="margin-left: 0px;" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">delete</a></li>
+                            {% if post_type == 'text' %}
+                            <a style='margin-left: 0px;' class='option' href="#" hx-get="{% url 'edit_post' post.id %}" hx-target='#post-description' hx-swap='outerHTML'>edit</a>
+                            {% endif %}
+                            
                         </div>
                     {% endif %}
                 {% endif %}

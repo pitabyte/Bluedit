@@ -12,6 +12,7 @@ urlpatterns = [
     path('post/<str:post_id>', views.post, name='post'),
     path('comment/<str:post_id>', views.comment, name='comment'),
     path('edit/<str:comment_id>', views.edit, name='edit'),
+    path('edit_post/<str:post_id>', views.edit_post, name='edit_post'),
     path('vote/<str:type>/<str:id>/<str:vote_type>', views.vote, name='vote'),
     path('vote/<str:type>/<str:id>/<str:vote_type>/<str:no_tree>', views.vote, name='vote'),
     path('b/<str:name>', views.subbluedit, name='subbluedit'),

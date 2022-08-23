@@ -234,6 +234,43 @@ def edit(request, comment_id):
         })
 
 
+def edit_post(request, post_id):
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        message = "Sorry, this page doesn't exist"
+        return render(request, 'bluedit/apology.html', {
+            'message': message
+        }
+        )
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if request.user.id == post.user.id:
+                form = PostForm(instance=post)
+                return render(request, 'bluedit/edit-post.html', {
+                    'post': post,
+                    'form': form
+                })
+            else:
+                message = "Error 403 - Forbidden"
+                return render(request, 'bluedit/apology.html', {
+                    'message': message
+                })
+        else:
+            message = "Error 403 - Forbidden"
+            return render(request, 'bluedit/apology.html', {
+                'message': message
+            })
+    if request.method == 'PUT':
+        put = QueryDict(request.body)
+        description = put.get('description')
+        print(description)
+        post.description = description
+        post.save()
+        return render(request, 'bluedit/edit-post.html', {
+            'post': post,
+        })
+
 def vote(request, type, id, vote_type, no_tree=None):
     user_id = request.user.id
     try:
