@@ -8,7 +8,7 @@ class User(AbstractUser):
     pass
 
 class Subbluedit(models.Model):
-    name = models.CharField(max_length=16, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=128)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     members = models.ManyToManyField(User, default=None, related_name='subs')

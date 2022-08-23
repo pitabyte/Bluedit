@@ -16,6 +16,10 @@ ul {
     
 }
 
+td {
+    max-width: 125px;
+}
+
 .title-view {
     font-size: 22px;
     color: #4682B4;
@@ -66,7 +70,7 @@ ul {
 
 .line {
     border: 1px solid rgb(235, 235, 235);
-    margin-left: 83px;
+    margin-left: 82.5px;
 }
 
 .vote {
@@ -197,6 +201,7 @@ ul {
 
 #card {
     margin-top: 10px;
+    height: 400px;
 }
 
 .card-text {
@@ -215,4 +220,8 @@ ul {
 
 .post-list {
     margin-top: 10px;
+}
+
+#login {
+    width: 100%;
 }

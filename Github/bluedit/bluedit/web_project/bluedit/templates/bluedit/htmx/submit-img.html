@@ -3,22 +3,24 @@
 
 {% block body %}
 
-<form method="post" action="{% url 'submit' %}">
-    {% csrf_token %}
-    {{ form.title|as_crispy_field }}
-    {{ form.image|as_crispy_field }}
-    {{ form.description.as_hidden }}
-    <div class="row">
-    <div class="col-4">
-      {% if sub_name %}
-        <input style="font-size: 20px;" type="text" disabled value="b/{{sub_name}}">
-      {% endif %}
-      {{ form.subbluedit|as_crispy_field }}
-    </div>
-    
+<div class="row justify-content-center">
+  <div class="col-7">
+    <form method="post" action="{% url 'submit' %}">
+      {% csrf_token %}
+        {{ form.title|as_crispy_field }}
+        {{ form.image|as_crispy_field }}
+        {{ form.description.as_hidden }}
+
+        {% if sub_name %}
+          <input style="font-size: 20px;" type="text" disabled value="b/{{sub_name}}">
+        {% endif %}
+
+        {{ form.subbluedit|as_crispy_field }}
+        
+        <button style="float: right;" type="submit" class="btn btn-info">Save post</button>
+    </form>
   </div>
-    <button type="submit" class="btn btn-info">Save post</button>
-  </form>
+</div>
 
 
 {% block script %}

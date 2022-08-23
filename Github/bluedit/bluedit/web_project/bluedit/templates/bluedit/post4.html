@@ -132,7 +132,9 @@
         <div id="comment"></div>
             
         {% for comment, vote_type, date, timeunit in zipped %}
+        <div class="col">
             {% include 'bluedit/blocks/comment-block.html' %}
+        </div>
         {% endfor %}
         <br>
         {% else %}

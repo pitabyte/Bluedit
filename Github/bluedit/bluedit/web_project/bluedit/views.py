@@ -37,7 +37,6 @@ def register(request):
             return render(request, 'bluedit/register.html', {
                 'message': message
             })
-        email = request.POST['email']
         password = request.POST['password']
         repassword = request.POST['repassword']
         if password != repassword:
@@ -45,7 +44,7 @@ def register(request):
             return render(request, 'bluedit/register.html', {
                 'message': message
             })
-        new = User.objects.create_user(username, email, password)
+        new = User.objects.create_user(username, password)
         new.save()
         login(request, new)
         return HttpResponseRedirect(reverse("index"))
