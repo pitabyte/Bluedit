@@ -1,8 +1,129 @@
 TODO:
 <str:x> to <int:x>
 
-all subbluedits?, user info
+all subbluedits?
 add comments
 remove duplication
 show url next to post
 paginator
+search function(https://www.w3schools.com/howto/howto_js_filter_dropdown.asp)
+
+[(<Post: Post object (27)>, False, 2, 'hour', 1, 'text'), (<Post: Post object (25)>, False, 1, 'day', 18, 'text'), (<Post: Post object (24)>, False, 1, 'day', 28, 'image'), (<Post: Post object (23)>, False, 3, 'day', 0, 'text'), (<Post: Post object (22)>, False, 3, 'day', 0, 'text'), (<Post: Post object (17)>, False, 3, 'day', 0, 'image'), (<Post: Post object (15)>, False, 3, 'day', 0, 'image'), (<Post: Post object (11)>, False, 3, 'day', 0, 'image'), (<Post: Post object (4)>, False, 3, 'day', 4, 'image'), (<Post: Post object (2)>, False, 3, 'day', 0, 'image')]
+
+from django.shortcuts import render
+from django.urls import reverse
+from .models import User, Post, PostForm, CommentForm, Comment, Vote, Subbluedit, SubblueditForm, ReplyForm, PostSubForm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import QueryDict
+from django.db.models.query import QuerySet
+import datetime
+from django.core.paginator import Paginator
+from datetime import timezone, timedelta
+
+
+{% load static %}
+
+<div id='comment-block-{{comment.id}}' class="row">
+        {% if comment.tree_level >= 1 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if comment.tree_level >= 2 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if comment.tree_level >= 3 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if comment.tree_level >= 4 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if comment.tree_level >= 5 %}
+        <div class="line"></div>
+        {% endif %}
+        {% if comment.tree_level >= 6 %}
+        <div class="line"></div>
+        {% endif %}
+    <div>
+    {% if user.is_authenticated %}
+    <div hx-target="#comment-block-{{comment.id}}" hx-swap="outerHTML">
+        <div class="vote-top"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            {% if vote_type == 'up' %}
+            <a href="#"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
+            {% else %}
+            <a href="#"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+            {% endif %}
+        </div>     
+        <div class="vote-bottom" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+            {% if vote_type == 'down' %}
+            <a href="#"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
+            {% else %}
+            <a href="#" ><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div>
+        <div class="vote-top">
+            <a href="#"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+        </div>
+        <div class="vote-bottom">
+            <a href="#"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+    {% if comment.tree_level == 0 %}
+    <div class="col-11" style="padding-left: 5px;">
+
+    {% elif comment.tree_level == 1 %}
+    <div class="col-10" style="padding-left: 5px;">
+
+    {% elif comment.tree_level == 2 %}
+    <div class="col-9" style="padding-left: 5px; overflow-wrap: break-word;">
+
+    {% elif comment.tree_level == 3 %}
+    <div class="col-8" style="padding-left: 5px; overflow-wrap: break-word;">
+
+    {% elif comment.tree_level == 4 %}
+    <div class="col-7" style="padding-left: 5px; overflow-wrap: break-word;">
+ 
+    {% elif comment.tree_level == 5 %}
+    <div class="col-6" style="padding-left: 5px; overflow-wrap: break-word;">
+
+    {% elif comment.tree_level == 6 %}
+    <div class="col-5" style="padding-left: 5px; overflow-wrap: break-word;">
+    {% endif %}
+        <ul class="list-group-item" style='list-style: none;'>
+            <li class="comment-top"><a id='name' href='#'>{{comment.user.username}}</a> 
+                <span style="margin-left: 3px;">
+                    {% if comment.vote_count == 1 %}
+                    {{comment.vote_count}} point
+                    {% else %}
+                    {{comment.vote_count}} points
+                    {% endif %}
+                    {% if timeunit == 'second' %}
+                     less than a minute ago
+                    {% else %}
+                    {{date}} {{timeunit}}{% if date != 1 %}s {% endif %} ago
+                    {% endif %} 
+            </span>
+            </li>
+            <div hx-target="this" hx-swap="innerHTML">
+                <li class="comment-text">{{comment.text}}</li>
+                <div class="row">
+                    <li style="margin-left: 5px;"><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='innerHTML'>reply</a></li>
+                    {% if user.is_authenticated %}
+                        {% if request.user == comment.user %}
+                            <li><a class='option' href="#">edit</a></li>
+                            <li><span style="font-size: 13px; font-weight: 400; margin-left: 7px;">deleted</span></li>
+                        {% endif %}
+                    {% endif %}
+                </div> 
+            </div>
+        </ul>
+    </div>
+
+</div>
+        <div id='reply-{{comment.id}}' class="reply">
+        </div>

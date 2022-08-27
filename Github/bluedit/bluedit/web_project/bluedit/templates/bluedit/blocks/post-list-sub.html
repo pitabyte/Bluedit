@@ -61,8 +61,7 @@
                      less than a minute ago
                     {% else %}
                     {{date}} {{timeunit}}{% if date != 1 %}s{% endif %} ago
-                    {% endif %} to 
-                <a id="name" href="{% url 'subbluedit' post.subbluedit %}">b/{{post.subbluedit}}</a></li>
+                    {% endif %}
         </div>
         <div class="row">
           <li><a class="comment-option" href="{% url 'post' post.id %}"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments </a></li>

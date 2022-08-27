@@ -70,19 +70,11 @@
             <div class="col-11">
                 <div class="title">{{post.title}}</div>
                 <span style="font-size: 13px; color: grey;">Posted by <a href="{% url 'user' post.user.username %}" id='name'>{{post.user.username}}</a>,
-                    {% if timeunit_post == 'second' %}
-                    less than a minute ago
-                        {% elif timeunit_post == 'minute' %}
-                            {{date_post}} minutes ago
-                        {% elif timeunit_post == 'hour' %}
-                            {{date_post}} hours ago
-                        {% elif timeunit_post == 'day' %}
-                            {{date_post}} days ago
-                        {% elif timeunit_post == 'month' %}
-                            {{date_post}} months ago
-                        {% else %}
-                            {{date_post}} years ago
-                        {% endif %} {{post.date_post}}</span>
+                    {% if timeunit == 'second' %}
+                     less than a minute ago
+                    {% else %}
+                    {{date}} {{timeunit}}{% if time != 1 %}s{% endif %} ago
+                    {% endif %} to </span>
                 {% if user.is_authenticated %}
                     {% if request.user == post.user %}
                         <div>

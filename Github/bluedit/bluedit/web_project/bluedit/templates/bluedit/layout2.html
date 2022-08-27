@@ -40,19 +40,16 @@
                     <a href="{% url 'subcreate' %}"><button id='create' class="btn btn-info">Create community</button></a>
                   </li>
                 {% endif %}
-                <li class="nav-item">
-                    <div class="search-bar">
-                        <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                            <input class="form-control" type="search" 
-                            name="search" placeholder="Search subbluedits..." autocomplete="off"
-                            hx-post="{% url 'search' %}" 
-                            hx-trigger="keyup changed delay:500ms, search" 
-                            hx-target="#search-results" 
-                            hx-indicator=".htmx-indicator"
-                            hx-swap="outerHTML">
-                            <div class='search-box' id="search-results"></div>
-                        </form>
-                    </div>
+                <li class="nav-item" style="display: none;">
+                    <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                        <input class="form-control" type="search" 
+                        name="search" placeholder="Search subbluedits..." 
+                        hx-post="{% url 'search' %}" 
+                        hx-trigger="keyup changed delay:500ms, search" 
+                        hx-target="#search-results" 
+                        hx-indicator=".htmx-indicator">
+                        <div id="search-results"></div>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -87,7 +84,6 @@
         </ul>
     </nav>
     <div class="body">
-        </div>
         <div class="container">
     {% block body %}
     {% endblock %}

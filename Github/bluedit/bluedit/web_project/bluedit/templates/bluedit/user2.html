@@ -12,15 +12,19 @@
 </div>
   
 
-<span class="title" style="margin-left: 43px;">/b/{{profile_user.username}}</span>
-<div id="submit-form" hx-swap="innerHTML">
-    {% for comment, vote_type, date, timeunit in zipped %}
-    <a class='title-view' style="font-size: 17px;" href="{% url 'post' comment.post.id %}">{{comment.post.title}}</a> <span style="font-size: 13px; color: grey;" class="comment-text">by</span>
-            <a style="font-size: 13px; color: grey; font-weight: 600;" href="{% url 'user' comment.post.user.username %}">{{comment.post.user.username}}</a><span style="font-size: 13px; color: grey;"class="comment-text"> to</span> 
-            <a style="font-size: 13px; color: grey; font-weight: 600;" href="{% url 'subbluedit' comment.post.subbluedit %}">b/{{comment.post.subbluedit}}</a>
-    {% include 'bluedit/blocks/comment-block-no-tree.html' %}
-    <hr>
-    {% endfor %}
+<div class="row">
+  <div class="col-11">
+    <div id="submit-form" hx-swap="innerHTML">
+        {% for comment, vote_type, date, timeunit in zipped %}
+        <a class='title-view' style="font-size: 17px;" href="{% url 'post' comment.post.id %}">{{comment.post.title}}</a> <span style="font-size: 13px; color: grey;" class="comment-text">by</span>
+                <a style="font-size: 13px; color: grey; font-weight: 600;" href="{% url 'user' comment.post.user.username %}">{{comment.post.user.username}}</a><span style="font-size: 13px; color: grey;"class="comment-text"> to</span> 
+                <a style="font-size: 13px; color: grey; font-weight: 600;" href="{% url 'subbluedit' comment.post.subbluedit %}">b/{{comment.post.subbluedit}}</a>
+        {% include 'bluedit/blocks/comment-block-no-tree.html' %}
+        <hr>
+        {% endfor %}
+    </div>
+  </div>
+    {% include 'bluedit/blocks/card-block-user.html' %}
 </div>
 {% block script %}
 <script src="{% static 'bluedit/user.js' %}"></script>

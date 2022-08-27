@@ -7,23 +7,30 @@ from django.contrib.auth.decorators import login_required
 from django.http import QueryDict
 from django.db.models.query import QuerySet
 import datetime
+from django.core.paginator import Paginator
 from datetime import timezone, timedelta
+from bluedit.helpers import time_passed, comment_list, post_list, get_comment, join_or_leave, comment_list, date_to_time, search_by_letter
 
-final_list = []
-child_check = []
+
 
 # Create your views here.
 def index(request):
     posts = Post.objects.all()
     votelist = []
     comment_count = []
-    post_type = []
-    zipped = post_list(request, posts)
+    post_type = [] #image or text post
+    zipped = post_list(request, posts) #post_list is defined
     subs = Subbluedit.objects.all().order_by('-member_count')[:5]
+    paginator = Paginator(posts, 3)
+    page_number = request.GET.get('page')
+    if not page_number:
+        page_number = 1
+    page_obj = paginator.get_page(page_number)
     return render(request, 'bluedit/index.html', {
             'zipped': zipped,
             'subs': subs,
-
+            'page_number': page_number,
+            'page_obj': page_obj
     })
 
 def register(request):
@@ -117,7 +124,6 @@ def post(request, post_id):
     else:
         post_type = 'text'
     votelist = []
-    final_list.clear()
     comments = comment_list(comments)
     for comment in comments:
         if request.user.is_authenticated:
@@ -129,13 +135,13 @@ def post(request, post_id):
                 votelist.append(False)
         else:
             votelist.append(False)
-    touple = return_date(comments)
-    datelist = touple[0]
-    timeunit = touple[1]
+    list_of_two = time_passed(comments)
+    datelist = list_of_two[0]
+    timeunit = list_of_two[1]
     zipped = zip(comments, votelist, datelist, timeunit)
-    touple = return_date(post)
-    date_post = touple[0][0]
-    timeunit_post = touple[1][0]
+    list_of_two = time_passed(post)
+    date_post = list_of_two[0][0]
+    timeunit_post = list_of_two[1][0]
     if request.user.is_authenticated:
         user = User.objects.get(pk=user_id)
         if user.votes.filter(post=post).exists():
@@ -200,11 +206,7 @@ def edit(request, comment_id):
     try:
         comment = Comment.objects.get(pk=comment_id)
     except Comment.DoesNotExist:
-        message = "Sorry, this page doesn't exist"
-        return render(request, 'bluedit/apology.html', {
-            'message': message
-        }
-        )
+        return HttpResponse("Very cheeky!")
     if request.method == 'GET':
         if request.user.is_authenticated:
             if request.user.id == comment.user.id:
@@ -224,8 +226,8 @@ def edit(request, comment_id):
                 'message': message
             })
     if request.method == 'PUT':
-        put = QueryDict(request.body)
-        text = put.get('text')
+        data = QueryDict(request.body)
+        text = data.get('text')
         comment.text = text
         comment.save()
         return render(request, 'bluedit/edit.html', {
@@ -261,9 +263,8 @@ def edit_post(request, post_id):
                 'message': message
             })
     if request.method == 'PUT':
-        put = QueryDict(request.body)
-        description = put.get('description')
-        print(description)
+        data = QueryDict(request.body)
+        description = data.get('description')
         post.description = description
         post.save()
         return render(request, 'bluedit/edit-post.html', {
@@ -282,9 +283,9 @@ def vote(request, type, id, vote_type, no_tree=None):
     if request.method == 'PUT':
         if type == 'comment':
             comment = Comment.objects.get(pk=id)
-            touple = return_date(comment)
-            date = touple[0][0]
-            timeunit = touple[1][0]
+            list_of_two = time_passed(comment)
+            date = list_of_two[0][0]
+            timeunit = list_of_two[1][0]
             check = Vote.objects.filter(comment=comment, user=user).exists()
             if check:
                 vote = Vote.objects.get(comment=comment, user=user)
@@ -308,7 +309,7 @@ def vote(request, type, id, vote_type, no_tree=None):
                         comment.vote_count += 1
                         vote_type = 'middle'
                 comment.save()
-                if no_tree == 'True':
+                if no_tree == 'True': #no_tree means that comment is displayed (e.g. user's profile) where their .tree_level is not taken into account
                     return render(request, 'bluedit/blocks/comment-block-no-tree.html', {
                         'comment': comment,
                         'vote_type': vote_type,
@@ -488,7 +489,10 @@ def join(request, sub_id, type):
 def reply(request, comment_id):
     if request.method == 'GET':
         commentf = ReplyForm()
-        tree_level = Comment.objects.get(pk=comment_id).tree_level + 1
+        try:
+            tree_level = Comment.objects.get(pk=comment_id).tree_level + 1
+        except Comment.DoesNotExist:
+            return HttpResponse('Very cheeky!')
         return render(request, 'bluedit/reply-form.html', {
             'comment_id': comment_id,
             'commentf': commentf,
@@ -522,24 +526,35 @@ def reply(request, comment_id):
 def search(request):
     if request.method == 'POST':
         sub_list = Subbluedit.objects.all()
+        member_count_list = []
         sub_list_names = []
         results = []
         data = QueryDict(request.body)
         search = data.get('search')
-        print(search)
         for sub in sub_list:
             sub_list_names.append(sub.name)
-        print(sub_list_names)
         for sub_name in sub_list_names:
-            if search in sub_name:
+            if search_by_letter(search, sub_name):
                 results.append(sub_name)
-        print(results)
-        return
+        action = 'search'
+        if search == '':
+            final_results = Subbluedit.objects.all().order_by('-member_count')[:4]
+        else:
+            final_results = Subbluedit.objects.filter(name__in=results).order_by('-member_count')[:4]
+        return render(request, 'bluedit/htmx/search-box.html', {
+            'action': action,
+            'final_results': final_results
+        })
+    elif request.method == 'GET':
+        action = 'close'
+        return render(request, 'bluedit/htmx/search-box.html', {
+            'action': action
+        })
     else:
         print(f.errors)
 
 @login_required(login_url='/login')
-def submit_option(request, option, sub_name=None):
+def submit_option(request, option, sub_name=None): #returns text or image html form for htmx call
     if option == 'text':
         if not sub_name:
             form = PostForm(initial={'image': 'http://www.dummy.url'})
@@ -577,17 +592,29 @@ def user(request, username):
     except User.DoesNotExist:
         for comment in comments:
             votelist.append(False)
-    date_time_list = return_date(comments)
+    date_time_list = time_passed(comments)
     datelist = date_time_list[0]
     timeunit = date_time_list[1]
     zipped = zip(comments, votelist, datelist, timeunit)
+    date = user.date_joined.date()
+    post_count = user.posts.all().count()
+    comment_count = user.comments.all().count()
+    list_of_two = date_to_time(user.last_login)
+    time = list_of_two[0]
+    unit = list_of_two[1]
+    unit.strip()
     return render(request, 'bluedit/user2.html', {
         'comments': comments,
         'profile_user': profile_user,
-        'zipped': zipped
+        'zipped': zipped,
+        'date': date,
+        'post_count': post_count,
+        'comment_count': comment_count,
+        'time': time,
+        'unit': unit
     })
 
-def user_option(request, username, option):
+def user_option(request, username, option): #returns user's posts or comments in html format as response to htmx call
     profile_user = User.objects.get(username=username)
     user_id = request.user.id
     if option == 'comments':
@@ -604,9 +631,9 @@ def user_option(request, username, option):
         except User.DoesNotExist:
             for comment in comments:
                 votelist.append(False)
-        touple = return_date(comments)
-        datelist = touple[0]
-        timeunit = touple[1]
+        list_of_two = time_passed(comments)
+        datelist = list_of_two[0]
+        timeunit = list_of_two[1]
         zipped = zip(comments, votelist, datelist, timeunit)
         return render(request, 'bluedit/htmx/user-comment.html', {
             'comments': comments,
@@ -663,137 +690,3 @@ def delete(request, id, name):
             'message': message
         })
 
-
-def return_date(comments):
-    datelist = []
-    timeunit = []
-    now = datetime.datetime.now(timezone.utc)
-    #check if comments argument is actually a single Post
-    if isinstance(comments, QuerySet) == False and isinstance(comments, list) == False:
-        temp = []
-        temp.append(comments)
-        temp.append('dummy')
-        comments = temp
-    for comment in comments:
-        if comment == 'dummy':
-            continue
-        date = comment.date
-        difference = (now - date).total_seconds()
-        m = datetime.timedelta(minutes=1).total_seconds()
-        h = datetime.timedelta(hours=1).total_seconds()
-        d = datetime.timedelta(days=1).total_seconds()
-        month = datetime.timedelta(weeks=4).total_seconds()
-        y = datetime.timedelta(weeks=52).total_seconds()
-        if difference < m:
-            datelist.append(int(difference))    
-            unit = 'second'
-            timeunit.append(unit) 
-        elif difference < h:
-            difference = int(difference / 60)
-            datelist.append(difference)
-            unit = 'minute'
-            timeunit.append(unit) 
-        elif difference < d:
-            difference = int(difference / 3600)
-            datelist.append(difference)
-            unit = 'hour'
-            timeunit.append(unit) 
-        elif difference < month:
-            difference = int(difference / 86400)
-            datelist.append(difference)
-            unit = 'day'
-            timeunit.append(unit) 
-        elif difference < y:
-            difference = int(difference / 2630000)
-            datelist.append(difference)
-            unit = 'month'
-            timeunit.append(unit) 
-        else:
-            difference = int(difference / 31536000)
-            datelist.append(difference)
-            unit = 'year'
-            timeunit.append(unit) 
-    return datelist, timeunit
-
-def comment_list(base):
-    if isinstance(base, QuerySet) == False:
-        if base.child.all():
-            final_list.append(base)
-            for child in base.child.all():
-                comment_list(child)
-        else:
-            final_list.append(base)
-    else:
-        for comment in base:
-            if comment.child.all():
-                final_list.append(comment)
-                for child in comment.child.all():
-                    comment_list(child)
-            else:
-                final_list.append(comment)
-    return final_list
-
-def post_list(request, posts):
-    votelist = []
-    comment_count = []
-    post_type = []
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        user = User.objects.get(pk=user_id)
-        for post in posts:
-            if user.votes.filter(post=post).exists():
-                vote_type = user.votes.get(post=post).vote_type
-                votelist.append(vote_type)
-            else:
-                votelist.append(False)
-    else:
-        for post in posts:
-            votelist.append(False)
-    touple = return_date(posts)
-    datelist = touple[0]
-    timeunit = touple[1]
-    for post in posts:
-        count = Comment.objects.filter(post=post).count()
-        comment_count.append(count)
-        if post.image != None:
-            x = 'image'
-            post_type.append(x)
-        else:
-            x = 'text'
-            post_type.append(x)
-    zipped = zip(posts, votelist, datelist, timeunit, comment_count, post_type)
-    return zipped
-
-def get_comment(request, comment):
-    user_id = request.user.id
-    votelist = []
-    if request.user.is_authenticated:
-        user = User.objects.get(pk=user_id)
-        if user.votes.filter(comment=comment).exists():
-            vote_type = user.votes.get(comment=comment).vote_type
-        else:
-            vote_type = False
-    else:
-        vote_type = False
-    touple = return_date(comment)
-    date = touple[0][0]
-    timeunit = touple[1][0]
-    
-    return vote_type, date, timeunit
-
-def join_or_leave(request, name):
-    check = Subbluedit.objects.filter(name=name).exists()
-    if check:
-        sub = Subbluedit.objects.get(name=name)
-        user_id = request.user.id
-        if request.user.is_authenticated:
-            user = User.objects.get(pk=user_id)
-            if user not in sub.members.all():
-                type = 'join'
-            else:
-                type = 'leave'
-        else:
-            type = 'join'
-        return type
-    else:
-        return False

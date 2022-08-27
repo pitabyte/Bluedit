@@ -1,0 +1,23 @@
+
+
+<div class="col-1">
+    <div id='card' class="card border-info" style="max-width: 18rem; margin-left: 50px; height: 250px; width: 350px;">
+        <div class="card-header" style="border-color: rgb(71, 209, 233);">
+            <span style="font-weight: 500; color: rgb(78, 78, 78);">{{user.username}}</span>
+            <div style="font-size: 15px; color:rgb(114, 112, 112);">
+                Last seen: {{time}} {{unit}}{% if time != 1 %}s {% endif %}
+                ago
+            </div>
+        </div>
+        <div class="card-text">
+            <div>
+                <span style="font-weight: 500;">Joined: </span> {{date}}
+            </div>
+            <div>
+                <span style="font-weight: 500;">Posts: </span> {{post_count}}
+            </div>
+            <div>
+                <span style="font-weight: 500;">Comments:  </span>{{comment_count}}
+            </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import QueryDict
 from django.db.models.query import QuerySet
 import datetime
+from django.core.paginator import Paginator
 from datetime import timezone, timedelta
 
 final_list = []
@@ -20,9 +21,11 @@ def index(request):
     post_type = []
     zipped = post_list(request, posts)
     subs = Subbluedit.objects.all().order_by('-member_count')[:5]
+    page_number = request.GET.get('page')
     return render(request, 'bluedit/index.html', {
             'zipped': zipped,
             'subs': subs,
+            'page_number': page_number,
     })
 
 def register(request):
@@ -760,7 +763,18 @@ def post_list(request, posts):
         else:
             x = 'text'
             post_type.append(x)
-    zipped = zip(posts, votelist, datelist, timeunit, comment_count, post_type)
+    oldlist = list(zip(posts, votelist, datelist, timeunit, comment_count, post_type))
+    page_number = request.GET.get('page')
+    if not page_number:
+        page_number = 1
+    newlist = []
+    newlist.clear()
+    for list_object in oldlist:
+        paginator = Paginator(list_object, 3) # Show 3 posts per page.
+        x = paginator.get_page(page_number)
+        newlist.append(x)
+    zipped = zip(newlist[0], newlist[1], newlist[2], newlist[3], newlist[4], newlist[5])
+    #zipped = zip(posts, votelist, datelist, timeunit, comment_count, post_type)
     return zipped
 
 def get_comment(request, comment):

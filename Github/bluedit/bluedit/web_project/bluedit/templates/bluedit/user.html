@@ -12,60 +12,13 @@
 </div>
   
 
-<span class="title" style="margin-left: 43px;">/b/{{profile_user.username}}<span>
+<span class="title" style="margin-left: 43px;">/b/{{profile_user.username}}</span>
 <div id="submit-form" hx-swap="innerHTML">
     {% for comment, vote_type, date, timeunit in zipped %}
-    <div class="row">
-        <div class="vote" hx-target="this" hx-swap="outerHTML">
-            <div class="vote"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                {% if vote_type == 'up' %}
-                <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'up' %}"><img src="{% static 'images/arrow-up-full.png' %}" width="15" height="15" alt=""></a>
-                {% else %}
-                <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'up' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
-                {% endif %}
-            </div>
-            <div id="vote_count" class="vote-count">
-                {{ comment.vote_count }}
-            </div>
-            <div class="vote" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                {% if vote_type == 'down' %}
-                <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'down' %}"><img src="{% static 'images/arrow-down-full.png' %}" width="15" height="15" alt=""></a>
-                {% else %}
-                <a href="#" hx-put="{% url 'vote' 'comment' comment.id 'down' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
-                {% endif %}
-            </div>
-        </div>
-        <div class="col">
-            <a class='title-view' href="{% url 'post' comment.post.id %}">{{comment.post.title}}</a> <span style="font-size: 13px; color: grey;" class="comment-text">by</span>
-            <a style="font-size: 13px; color: grey;" href="{% url 'user' comment.post.user.username %}">{{comment.post.user.username}}</a><span style="font-size: 13px; color: grey;"class="comment-text"> to</span> 
-            <a style="font-size: 13px; color: grey;" href="{% url 'subbluedit' comment.post.subbluedit %}">b/{{comment.post.subbluedit}}</a>
-            <ul class="list-group-item" style='list-style: none;'>
-                <li style="font-size: 13px; color: grey;">Posted by {{comment.user.username}}, 
-                    {% if timeunit == 'second' %}
-                        {{date}} seconds ago
-                    {% elif timeunit == 'minute' %}
-                        {{date}} minutes ago
-                    {% elif timeunit == 'hour' %}
-                        {{date}} hours ago
-                    {% elif timeunit == 'day' %}
-                        {{date}} days ago
-                    {% elif timeunit == 'month' %}
-                        {{date}} months ago
-                    {% else %}
-                        {{date}} years ago
-                    {% endif %}
-                </li>
-                <div hx-target="this" hx-swap="innerHTML">
-                    <li class="comment-text">{{comment.text}}</li>
-                    <div class="row">
-                        <li><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">Edit</a></li>
-                    </div>
-                </div>
-            </ul>
-        </div>
-    </div>
-            <div id='reply-{{comment.id}}' class="reply">
-            </div>
+    <a class='title-view' style="font-size: 17px;" href="{% url 'post' comment.post.id %}">{{comment.post.title}}</a> <span style="font-size: 13px; color: grey;" class="comment-text">by</span>
+            <a style="font-size: 13px; color: grey; font-weight: 600;" href="{% url 'user' comment.post.user.username %}">{{comment.post.user.username}}</a><span style="font-size: 13px; color: grey;"class="comment-text"> to</span> 
+            <a style="font-size: 13px; color: grey; font-weight: 600;" href="{% url 'subbluedit' comment.post.subbluedit %}">b/{{comment.post.subbluedit}}</a>
+    {% include 'bluedit/blocks/comment-block-no-tree.html' %}
     <hr>
     {% endfor %}
 </div>

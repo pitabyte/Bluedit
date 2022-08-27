@@ -1,4 +1,4 @@
-ul {
+ul, li {
     list-style: none;
 }
 
@@ -225,3 +225,36 @@ td {
 #login {
     width: 100%;
 }
+
+#search-results {
+    height: 200px;
+    position: absolute;
+    z-index: 2;
+}
+
+.search-bar {
+    margin-left: 300px;
+    width: 300px;
+}
+
+.result-button {
+    width: 100%;
+    background-color: white;
+    border: 1px solid white;
+}
+
+.result-button:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+#card-results {
+    height: 190px;
+}
+
+#close-button {
+    position: absolute;
+    bottom: 3%;
+    right: 3%
+}
+
+
