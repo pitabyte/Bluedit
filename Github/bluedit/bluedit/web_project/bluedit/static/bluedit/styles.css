@@ -233,7 +233,7 @@ td {
 }
 
 .search-bar {
-    margin-left: 300px;
+    margin-left: 20px;
     width: 300px;
 }
 
@@ -253,7 +253,7 @@ td {
 
 #close-button {
     position: absolute;
-    bottom: 3%;
+    bottom: 4%;
     right: 3%
 }
 

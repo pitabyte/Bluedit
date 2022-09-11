@@ -43,10 +43,10 @@
                 <li class="nav-item">
                     <div class="search-bar">
                         <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                            <input class="form-control" type="search" 
+                            <input class="form-control" type="search"
                             name="search" placeholder="Search subbluedits..." autocomplete="off"
                             hx-post="{% url 'search' %}" 
-                            hx-trigger="keyup changed delay:500ms, search" 
+                            hx-trigger="keyup changed delay:250ms, search" 
                             hx-target="#search-results" 
                             hx-indicator=".htmx-indicator"
                             hx-swap="outerHTML">

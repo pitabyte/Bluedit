@@ -546,6 +546,8 @@ def search(request):
             'final_results': final_results
         })
     elif request.method == 'GET':
+        print('hello')
+        print(request.GET.get('search'))
         action = 'close'
         return render(request, 'bluedit/htmx/search-box.html', {
             'action': action
@@ -596,10 +598,10 @@ def user(request, username):
     datelist = date_time_list[0]
     timeunit = date_time_list[1]
     zipped = zip(comments, votelist, datelist, timeunit)
-    date = user.date_joined.date()
-    post_count = user.posts.all().count()
-    comment_count = user.comments.all().count()
-    list_of_two = date_to_time(user.last_login)
+    date = profile_user.date_joined.date()
+    post_count = profile_user.posts.all().count()
+    comment_count = profile_user.comments.all().count()
+    list_of_two = date_to_time(profile_user.last_login)
     time = list_of_two[0]
     unit = list_of_two[1]
     unit.strip()
