@@ -51,7 +51,7 @@ def register(request):
             return render(request, 'bluedit/register.html', {
                 'message': message
             })
-        new = User.objects.create_user(username, password)
+        new = User.objects.create_user(username=username, password=password)
         new.save()
         login(request, new)
         return HttpResponseRedirect(reverse("index"))

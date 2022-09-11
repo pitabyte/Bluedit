@@ -91,7 +91,7 @@
                     <a href="{{post.image}}"><img id='image' src="{{post.image}}" alt=""></a>
                 {% elif post_type == 'text' %}
                     <div id='post-description' class="list-group-item">
-                            {{post.description}}
+                            <span class='comment-text'>{{post.description}}</span>
                 {% endif %}
                 </div>
 
