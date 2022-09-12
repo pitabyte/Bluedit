@@ -6,7 +6,7 @@ blinker==1.4
 certifi==2019.11.28
 chardet==3.0.4
 Click==7.0
-cloud-init
+cloud-init==22.2
 colorama==0.4.3
 command-not-found==0.3
 configobj==5.0.6
@@ -46,11 +46,13 @@ netifaces==0.10.4
 numpy==1.23.1
 oauthlib==3.1.0
 packaging==21.3
+pbr==5.10.0
 pexpect==4.6.0
 Pillow==9.2.0
 psycopg2-binary==2.9.3
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
+pycairo==1.21.0
 pygame==2.1.2
 PyGObject==3.36.0
 PyHamcrest==1.9.0
@@ -76,6 +78,7 @@ sos==4.3
 sqlparse==0.2.4
 ssh-import-id==5.10
 systemd-python==234
+testresources==2.0.1
 tk==0.1.0
 Twisted==18.9.0
 ubuntu-advantage-tools==27.9
