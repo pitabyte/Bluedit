@@ -41,7 +41,7 @@
                   </li>
                 {% endif %}
                 <li class="nav-item">
-                    <div class="search-bar">
+                    <div class="search-bar" id="search-bar">
                         <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
                             <input class="form-control" type="search"
                             name="search" placeholder="Search subbluedits..." autocomplete="off"

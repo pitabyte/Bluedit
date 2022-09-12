@@ -8,8 +8,11 @@ show url next to post
 paginator
 search function(https://www.w3schools.com/howto/howto_js_filter_dropdown.asp)
 'looks like this subbluedit doesn't exist yet. You can help by creating it here.
+reply leads to login page if logout.
 
 {% load static %}
+
+onkeypress="return event.keyCode != 13;"
 
 {% if action == 'search' %}
     <div class='search-box' id="search-results">
