@@ -130,6 +130,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'bluedit.User'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://ancient-sierra-83549.herokuapp.com'
+]
+
 # Configure Django App for Heroku.
 import django_on_heroku
 django_on_heroku.settings(locals())
