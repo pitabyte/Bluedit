@@ -517,11 +517,12 @@ def reply(request, comment_id):
             vote_type = data[0]
             date = data[1]
             timeunit = data[2]
-            return render(request, 'bluedit/blocks/comment-block.html', {
+            return render(request, 'bluedit/blocks/comment-block-reply.html', {
                     'comment': reply,
                     'vote_type': vote_type,
                     'date': date,
-                    'timeunit': timeunit
+                    'timeunit': timeunit,
+                    'comment_id': comment_id
                 })
         
         else:

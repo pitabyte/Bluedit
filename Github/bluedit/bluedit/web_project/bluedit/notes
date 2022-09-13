@@ -8,8 +8,6 @@ show url next to post
 paginator
 search function(https://www.w3schools.com/howto/howto_js_filter_dropdown.asp)
 'looks like this subbluedit doesn't exist yet. You can help by creating it here.
-reply leads to login page if logout.
-remove bug where comment disappears after second replying twice
 wrong url post submit
 
 <meta name="viewport" content="initial-scale=1, width=device-width">
