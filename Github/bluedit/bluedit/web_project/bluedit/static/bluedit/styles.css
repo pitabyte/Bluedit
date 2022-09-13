@@ -159,7 +159,7 @@ td {
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
 }
 
 #submit-option {
