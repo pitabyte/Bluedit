@@ -6,6 +6,7 @@
 <div style="margin-top: 50px;">
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
     <div class="form-group">
             <div class="row justify-content-center">
                 <div class="col-sm-3">

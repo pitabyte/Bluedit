@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import User, Post, PostForm, CommentForm, Comment, Vote, Subbluedit, SubblueditForm, ReplyForm, PostSubForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -65,7 +65,12 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            next_url = request.POST['next']
+            print(next_url)
+            if next_url:
+                return HttpResponseRedirect(next_url)
+            else:
+                return HttpResponseRedirect(reverse("index"))
         else:
             message = 'Incorrect username or password!'
             return render(request, 'bluedit/login.html', {
@@ -397,6 +402,7 @@ def vote(request, type, id, vote_type, no_tree=None):
             'message': message
         })
 
+@login_required(login_url='/login')
 def subcreate(request):
     if request.method == 'GET':
         form = SubblueditForm()

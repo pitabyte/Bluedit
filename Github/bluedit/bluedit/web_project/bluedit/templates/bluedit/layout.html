@@ -31,14 +31,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Random</a>
                 </li>
-                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'submit' %}">Submit post</a>
                   </li>
                   <li class="nav-item">
                     <a href="{% url 'subcreate' %}"><button id='create' class="btn btn-info">Create community</button></a>
                   </li>
-                {% endif %}
                 <li class="nav-item">
                     <div class="search-bar" id="search-bar">
                         <form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -77,7 +75,7 @@
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                <a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
