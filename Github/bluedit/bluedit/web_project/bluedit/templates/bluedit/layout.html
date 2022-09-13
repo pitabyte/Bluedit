@@ -63,7 +63,7 @@
                           My bluedit
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% for sub in subs %}
+                            {% for sub in sub_list %}
                           <a class="dropdown-item" href="{% url 'subbluedit' sub %}">{{sub}}</a>
                             {% endfor %}
                         </div>
