@@ -407,10 +407,9 @@ def subcreate(request):
             sub.user = user
             sub.save()
             sub.members.add(user)
+            sub.member_count += 1
             sub.save()
-            return render(request, 'bluedit/subbluedit.html', {
-                'sub': sub,
-            })
+            return HttpResponseRedirect(reverse("subbluedit", args=[sub.name]))
 
 
 def subbluedit(request, name):
