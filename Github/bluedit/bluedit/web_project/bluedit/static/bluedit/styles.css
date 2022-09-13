@@ -23,8 +23,8 @@ td {
     font-size: 22px;
     color: #4682B4;
     font-weight: 500;
-    width: 825px;
-    overflow-wrap: break-word;
+    width: 100%;
+    overflow-wrap: anywhere;
 }
 
 .title-view:hover {

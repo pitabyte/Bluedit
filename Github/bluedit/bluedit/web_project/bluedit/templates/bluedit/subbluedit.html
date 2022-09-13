@@ -8,7 +8,7 @@
     <div class="col">
       {% if message %}
       <div style="margin-top: 10px;">
-        Nothing here yet. You can change it <span><a href="{% url 'submit' sub.name %}">here!</a></span>
+        Nobody has posted here yet. <span><a style='color: #4682B4; font-weight: 500;' href="{% url 'submit' sub.name %}">Submit</a></span> and be the first one.
       </div>
       {% else %}
       {% include 'bluedit/blocks/post-list-sub.html' %}
