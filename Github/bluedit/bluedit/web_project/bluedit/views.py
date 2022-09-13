@@ -425,6 +425,10 @@ def subbluedit(request, name):
         post_type = []
         sub = Subbluedit.objects.get(name=name)
         posts = sub.posts.all()
+        if posts.count() == 0:
+            message = True
+        else:
+            message = False
         user_id = request.user.id
         if request.user.is_authenticated:
             user = User.objects.get(pk=user_id)
@@ -441,7 +445,8 @@ def subbluedit(request, name):
                     'posts': posts,
                     'type': type,
                     'zipped': zipped,
-                    'member_count': member_count
+                    'member_count': member_count,
+                    'message': message
                 })
     else:
         message = "Sorry, this page doesn't exist"
