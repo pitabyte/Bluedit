@@ -74,7 +74,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/login')
 def submit(request, sub_name=None):
@@ -106,6 +106,11 @@ def submit(request, sub_name=None):
             return HttpResponseRedirect(reverse("post", args=[post.id]))
         else:
             print(f.errors.as_text())
+            message = 'Sorry, something went wrong'
+            return render(request, 'bluedit/apology.html', {
+            'message': message
+        }
+        )
 
 def post(request, post_id):
     commentf = CommentForm()
@@ -540,6 +545,8 @@ def search(request):
             final_results = Subbluedit.objects.all().order_by('-member_count')[:4]
         else:
             final_results = Subbluedit.objects.filter(name__in=results).order_by('-member_count')[:4]
+            for result in final_results:
+                print(result.name)
         return render(request, 'bluedit/htmx/search-box.html', {
             'action': action,
             'final_results': final_results

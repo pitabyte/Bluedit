@@ -212,9 +212,11 @@ def date_to_time(date):
     return difference, unit
 
 def search_by_letter(query, base):
+    if len(query) > len(base):
+        return False
     letter_counter = 0
     while letter_counter < len(query):
-        if query[letter_counter].lower() != base[letter_counter]:
+        if query[letter_counter].lower() != base[letter_counter].lower():
             return False
         letter_counter += 1
         if letter_counter == len(query):

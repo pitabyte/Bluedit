@@ -67,7 +67,11 @@
             <div hx-target="this" hx-swap="innerHTML">
                 <li class="comment-text">{{comment.text}}</li>
                 <div class="row">
-                    <li style="margin-left: 5px;"><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='innerHTML' hx-get="{% url 'reply' comment.id %}">reply</a></li>
+                    {% if user.is_authenticated %}
+                        <li style="margin-left: 5px;"><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='innerHTML' hx-get="{% url 'reply' comment.id %}">reply</a></li>
+                    {% else %}
+                        <li style="margin-left: 5px;"><a class='option' href="{% url 'login' %}">reply</a></li>
+                    {% endif %}
                     {% if user.is_authenticated %}
                         {% if request.user == comment.user %}
                             <li><a class='option' href="#" hx-get="{% url 'edit' comment.id %}">edit</a></li>
