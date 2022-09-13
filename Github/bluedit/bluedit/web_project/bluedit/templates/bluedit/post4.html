@@ -8,9 +8,9 @@
 
 {% if post %}
 
-<div class="row">
+<div class="row flex-nowrap">
     <div class="col-11">
-        <div class="row">
+        <div class="row flex-nowrap">
             {% if user.is_authenticated %}
             {% if vote_type_post == 'up' %}
 
@@ -67,7 +67,7 @@
                 </div>
             </div>
             {% endif %}
-            <div class="col-11">
+            <div class="col-11" style="padding-left: 5px; overflow-wrap: break-word;">
                 <div class="title">{{post.title}}</div>
                 <span style="font-size: 13px; color: grey;">Posted by <a href="{% url 'user' post.user.username %}" id='name'>{{post.user.username}}</a>,
                     {% if timeunit_post == 'second' %}
@@ -91,13 +91,14 @@
                     <a href="{{post.image}}"><img id='image' src="{{post.image}}" alt=""></a>
                 {% elif post_type == 'text' %}
                     <div id='post-description' class="list-group-item">
-                            <span class='comment-text'>{{post.description}}</span>
+                            <li class='comment-text'>{{post.description}}</li>
                 {% endif %}
                 </div>
 
                 <div class="comment-option-post" style="margin-top: 5px;"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments</div>
             </div> 
-        </div>
+    </div>
+
 
         <hr>
 
@@ -135,7 +136,7 @@
         {% endif %}
     </div>
     <div class="col-1">
-    {% include 'bluedit/blocks/card-block-join.html' %}
+        {% include 'bluedit/blocks/card-block-join.html' %}
     </div>
 </span>
 </div>

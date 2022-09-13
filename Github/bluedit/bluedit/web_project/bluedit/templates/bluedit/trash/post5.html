@@ -8,9 +8,9 @@
 
 {% if post %}
 
-<div class="row">
-    <div class="col-11">
-        <div class="row">
+<div class="row flex-nowrap">
+    <div class="col-11" style="overflow-wrap: break-word;">
+        <div class="row flex-nowrap">
             {% if user.is_authenticated %}
             {% if vote_type_post == 'up' %}
 
@@ -67,18 +67,22 @@
                 </div>
             </div>
             {% endif %}
-            <div class="col-11">
+            <div class="col-11" style="padding-left: 5px; overflow-wrap: break-word;">
                 <div class="title">{{post.title}}</div>
                 <span style="font-size: 13px; color: grey;">Posted by <a href="{% url 'user' post.user.username %}" id='name'>{{post.user.username}}</a>,
-                    {% if timeunit == 'second' %}
+                    {% if timeunit_post == 'second' %}
                      less than a minute ago
                     {% else %}
-                    {{date}} {{timeunit}}{% if time != 1 %}s{% endif %} ago
-                    {% endif %} to </span>
+                    {{date_post}} {{timeunit_post}}{% if date_post != 1 %}s{% endif %} ago
+                    {% endif %}
                 {% if user.is_authenticated %}
                     {% if request.user == post.user %}
                         <div>
-                            <a style='margin-left: 0px;' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">Delete</a></li>
+                            <a style="margin-left: 0px;" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class='option' href="#" hx-target='this' hx-swap='outerHTML' hx-delete="{% url 'delete' post.id 'post' %}">delete</a></li>
+                            {% if post_type == 'text' %}
+                            <a style='margin-left: 0px;' class='option' href="#" hx-get="{% url 'edit_post' post.id %}" hx-target='#post-description' hx-swap='outerHTML'>edit</a>
+                            {% endif %}
+                            
                         </div>
                     {% endif %}
                 {% endif %}
@@ -87,13 +91,14 @@
                     <a href="{{post.image}}"><img id='image' src="{{post.image}}" alt=""></a>
                 {% elif post_type == 'text' %}
                     <div id='post-description' class="list-group-item">
-                            {{post.description}}
+                            <li class='comment-text'>{{post.description}}</li>
                 {% endif %}
                 </div>
 
                 <div class="comment-option-post" style="margin-top: 5px;"><img style='margin-right: 7px;' src="{% static 'images/comment.png' %}" width="15" height="15" alt="">{{comment_count}} comments</div>
             </div> 
-        </div>
+    </div>
+
 
         <hr>
 
@@ -120,7 +125,9 @@
         <div id="comment"></div>
             
         {% for comment, vote_type, date, timeunit in zipped %}
+        <div class="col">
             {% include 'bluedit/blocks/comment-block.html' %}
+        </div>
         {% endfor %}
         <br>
         {% else %}
@@ -128,8 +135,8 @@
         <h2>{{message}}</h2>
         {% endif %}
     </div>
-    <div class="col-1">
-    {% include 'bluedit/blocks/card-block-join.html' %}
+    <div class="col">
+        {% include 'bluedit/blocks/card-block-join.html' %}
     </div>
 </span>
 </div>

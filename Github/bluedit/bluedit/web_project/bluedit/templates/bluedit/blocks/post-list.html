@@ -3,7 +3,7 @@
 <div class="post-list">
 {% for post, vote_type, date, timeunit, comment_count, post_type in zipped %}
 <div id="post-block-{{post.id}}">
-  <div class="row">
+  <div class="row flex-nowrap">
     <div class="vote" hx-target="this" hx-swap="outerHTML">
       {% if user.is_authenticated %}
       <div class="vote-top-post" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -41,7 +41,7 @@
 <div class="col" style="padding-left: 5px;">
     <li class="list-group-item">
       <ul class="list-group">
-        <div class="row">
+        <div class="row flex-nowrap">
           <div class='post-image'>
             {% if post_type == 'image' %}
             <a href="{% url 'post' post.id %}"><img src="{{post.image}}" width="90" height="70" alt=""></a>
