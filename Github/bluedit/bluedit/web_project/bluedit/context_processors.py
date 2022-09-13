@@ -17,9 +17,9 @@ def sub_list(request):
         subs = []
         for sub in sub_list:
             subs.append(sub.name)
+            sub_list = subs
     except User.DoesNotExist:
         sub_list = []
-    sub_list = subs
     return {
         'sub_list': sub_list
     }
