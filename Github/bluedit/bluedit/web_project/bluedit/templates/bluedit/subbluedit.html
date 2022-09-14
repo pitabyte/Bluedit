@@ -11,7 +11,11 @@
         Nobody has posted here yet. <span><a style='color: #4682B4; font-weight: 500;' href="{% url 'submit' sub.name %}">Submit</a></span> and be the first one.
       </div>
       {% else %}
+      
       {% include 'bluedit/blocks/post-list-sub.html' %}
+
+      {% include 'bluedit/blocks/paginator.html' %}
+
       {% endif %}
       </div>
           {% include 'bluedit/blocks/card-block-join.html' %}

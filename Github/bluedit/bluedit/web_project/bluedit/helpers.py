@@ -123,7 +123,7 @@ def post_list(request, posts):
     templist.append(post_type)
     newlist = []
     for list_object in templist:
-            paginator = Paginator(list_object, 3) # Show 3 posts per page.
+            paginator = Paginator(list_object, 5) # Show 3 posts per page.
             x = paginator.get_page(page_number)
             newlist.append(x)
     zipped = zip(newlist[0], newlist[1], newlist[2], newlist[3], newlist[4], newlist[5]) #zip is used so every characteristic of a post can be displayed at the same time during iteration

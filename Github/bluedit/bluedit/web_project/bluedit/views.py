@@ -22,7 +22,7 @@ def index(request):
     zipped = post_list(request, posts) #post_list is defined in helpers.py
     subs = Subbluedit.objects.all().order_by('-member_count')[:5]
     subs_all = Subbluedit.objects.all()
-    paginator = Paginator(posts, 3)
+    paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     if not page_number:
         page_number = 1
@@ -453,6 +453,11 @@ def subbluedit(request, name):
         else:
             type = 'join'
         zipped = post_list(request, posts)
+        paginator = Paginator(posts, 5)
+        page_number = request.GET.get('page')
+        if not page_number:
+            page_number = 1
+        page_obj = paginator.get_page(page_number)
         member_count = sub.members.all().count()
         return render(request, 'bluedit/subbluedit.html', {
                     'sub': sub,
@@ -460,7 +465,9 @@ def subbluedit(request, name):
                     'type': type,
                     'zipped': zipped,
                     'member_count': member_count,
-                    'message': message
+                    'message': message,
+                    'page_number': page_number,
+                    'page_obj': page_obj,
                 })
     else:
         message = "Sorry, this page doesn't exist"
