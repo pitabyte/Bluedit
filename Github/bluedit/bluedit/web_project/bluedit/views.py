@@ -10,6 +10,7 @@ import datetime
 from django.core.paginator import Paginator
 from datetime import timezone, timedelta
 from bluedit.helpers import time_passed, comment_list, post_list, get_comment, join_or_leave, comment_list, date_to_time, search_by_letter
+from random import randint
 
 
 
@@ -725,3 +726,11 @@ def delete(request, id, name):
             'message': message
         })
 
+def random(request):
+    post_count = Post.objects.all().count()
+    posts = Post.objects.all()
+    id_list = []
+    for post in posts:
+        id_list.append(post.id)
+    post_id = id_list[randint(0, (len(id_list)-1))]
+    return HttpResponseRedirect(reverse("post", args=[post_id]))

@@ -25,4 +25,5 @@ urlpatterns = [
     path('user/<str:username>', views.user, name='user'),
     path('user_option/<str:username>/<str:option>', views.user_option, name='user_option'),
     path('delete/<str:id>/<str:name>', views.delete, name='delete'),
+    path('random', views.random, name='random')
 ]
