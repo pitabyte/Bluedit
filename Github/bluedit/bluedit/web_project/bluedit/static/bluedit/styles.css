@@ -172,8 +172,9 @@ td {
 }
 
 .post-image {
-    margin-right: 15px;
+    margin-right: 10px;
     margin-top: 5px;
+    margin-left: 5px;
 }
 
 #icon {

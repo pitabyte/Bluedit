@@ -1,0 +1,16 @@
+
+
+<div class="col-1">
+    <div id='card' class="card border-info" style="max-width: 18rem; margin-left: 50px; height: 250px; width: 350px;">
+        <div class="card-header" style="border-color: rgb(71, 209, 233);">
+            <span style='font-weight: 500;'>All SUBBLUEDITS:</span>
+        </div>
+        <div class="card-text">
+            <span style="word-spacing: 10px;">
+                {% for sub in subs_all %}
+                    <a class="option" style="margin-left: 0px;" href='{% url "subbluedit" sub.name %}'>{{sub.name}}</a>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+</div>

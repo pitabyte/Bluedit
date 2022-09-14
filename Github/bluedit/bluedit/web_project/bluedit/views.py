@@ -19,8 +19,9 @@ def index(request):
     votelist = []
     comment_count = []
     post_type = [] #image or text post
-    zipped = post_list(request, posts) #post_list is defined
+    zipped = post_list(request, posts) #post_list is defined in helpers.py
     subs = Subbluedit.objects.all().order_by('-member_count')[:5]
+    subs_all = Subbluedit.objects.all()
     paginator = Paginator(posts, 3)
     page_number = request.GET.get('page')
     if not page_number:
@@ -30,7 +31,8 @@ def index(request):
             'zipped': zipped,
             'subs': subs,
             'page_number': page_number,
-            'page_obj': page_obj
+            'page_obj': page_obj,
+            'subs_all': subs_all
     })
 
 def register(request):

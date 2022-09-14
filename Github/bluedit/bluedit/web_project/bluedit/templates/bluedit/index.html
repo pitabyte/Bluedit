@@ -7,10 +7,13 @@
 
 
 <div class="row flex-nowrap">
-    <div class="col">
-    {% include 'bluedit/blocks/post-list.html' %}
+    <div class="col-11">
+        {% include 'bluedit/blocks/post-list.html' %}
     </div>
-    {% include 'bluedit/blocks/card-block-index.html' %}
+    <div class="col-1">
+        {% include 'bluedit/blocks/card-block-index.html' %}
+        {% include 'bluedit/blocks/card-block-all.html' %}
+    </div>
 </div>
 
 <div class="pagination">
