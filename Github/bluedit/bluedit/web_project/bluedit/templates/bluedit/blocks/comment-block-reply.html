@@ -40,10 +40,10 @@
     {% else %}
     <div>
         <div class="vote-top">
-            <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+            <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
         </div>
         <div class="vote-bottom">
-            <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+            <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
         </div>
     </div>
     {% endif %}
@@ -70,7 +70,7 @@
                     {% if user.is_authenticated %}
                         <li style="margin-left: 5px;"><a class='option' href="#" hx-target='#reply-{{comment.id}}' hx-swap='outerHTML' hx-get="{% url 'reply' comment.id %}">reply</a></li>
                     {% else %}
-                        <li style="margin-left: 5px;"><a class='option' href="{% url 'login' %}">reply</a></li>
+                        <li style="margin-left: 5px;"><a class='option' href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">reply</a></li>
                     {% endif %}
                     {% if user.is_authenticated %}
                         {% if request.user == comment.user %}

@@ -10,6 +10,7 @@
   <div class="col-sm-3">
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
         <div class="form-group">
             <div style="color: red; margin-bottom: 5px;" >{{message}}</div>
             <input type="text" class="form-control" name='username' id="username" placeholder="username">

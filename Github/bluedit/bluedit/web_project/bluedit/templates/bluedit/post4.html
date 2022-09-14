@@ -57,13 +57,13 @@
             {% else %}
             <div>
                 <div class="vote-top-post">
-                    <a href="{% url 'login' %}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
+                    <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}"><img src="{% static 'images/arrow-up.png' %}" width="15" height="15" alt=""></a>
                 </div>
                 <div id="vote_count" class="vote-count">
                     {{ post.vote_count }}
                 </div>
                 <div class="vote-bottom-post">
-                    <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}" width="15" height="15" alt=""></a>
+                    <a href="{% url 'login' %}"><img src="{% static 'images/arrow-down.png' %}?next={{ request.get_full_path|urlencode }}" width="15" height="15" alt=""></a>
                 </div>
             </div>
             {% endif %}
@@ -112,11 +112,11 @@
         </div>
         {% else %}
         <div class="col">
-            <a href="{% url 'login' %}" id='name'>Log in</a> to comment
+            <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}" id='name'>Log in</a> to comment
         <form>
             {{ commentf.text }}
         </form>
-        <a href="{% url 'login' %}" id='name'><button class="btn btn-info">Save comment</button></a>
+        <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}" id='name'><button class="btn btn-info">Save comment</button></a>
         </div>
         {% endif %}
 

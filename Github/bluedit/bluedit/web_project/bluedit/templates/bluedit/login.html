@@ -30,7 +30,7 @@
     <div class="row justify-content-center">
         <div class="col-sm-3">
             <div class="comment-top" style="margin-top: 5px;">
-                <span>New to Bluedit?</span> <span><a style='color: #4682B4; font-weight: 600;' href="{% url 'register' %}">Sign up</a></span>
+                <span>New to Bluedit?</span> <span><a style='color: #4682B4; font-weight: 600;' href="{% url 'register' %}?next={{ request.GET.next }}">Sign up</a></span>
             </div>
         </div>
     </div>

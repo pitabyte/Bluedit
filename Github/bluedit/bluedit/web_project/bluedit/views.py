@@ -56,6 +56,12 @@ def register(request):
         new = User.objects.create_user(username=username, password=password)
         new.save()
         login(request, new)
+        next_url = request.POST['next']
+        print(next_url)
+        if next_url:
+            return HttpResponseRedirect(next_url)
+        else:
+            return HttpResponseRedirect(reverse("index"))
         return HttpResponseRedirect(reverse("index"))
 
 def login_view(request):
