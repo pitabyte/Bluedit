@@ -1,0 +1,15 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1"><span id='pagi'><<</span></a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><span id='pagi'>Previous</span></a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><span id='pagi'>{{ page_obj.previous_page_number }}</span></a></li>
+        {% endif %}
+        <li class="page-item disabled"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"><span id='pagi'>{{ page_obj.next_page_number }}</span></a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"><span id='pagi'>Next</span></a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><span id='pagi'>>></span></a></li>
+        {% endif %}
+    </ul>
+</nav>

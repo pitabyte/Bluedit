@@ -6,9 +6,9 @@
             <span style='font-weight: 500;'>All SUBBLUEDITS:</span>
         </div>
         <div class="card-text">
-            <span style="word-spacing: 10px;">
+            <span>
                 {% for sub in subs_all %}
-                    <a class="option" style="margin-left: 0px;" href='{% url "subbluedit" sub.name %}'>{{sub.name}}</a>
+                    <a class="option" style="margin-left: 5px; margin-right: 5px;" href='{% url "subbluedit" sub.name %}'>{{sub.name}}</a>
                 {% endfor %}
             </span>
         </div>
