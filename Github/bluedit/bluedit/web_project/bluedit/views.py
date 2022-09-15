@@ -124,6 +124,7 @@ def submit(request, sub_name=None):
                 #check if URL leads to an image
                 image_formats = ("image/png", "image/jpeg", "image/jpg")
                 response = requests.head(post.image)
+                print(response)
                 content_type = response.headers.get('content-type')
                 if content_type not in image_formats:
                     message = 'Invalid image URL'
