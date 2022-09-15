@@ -1,7 +1,7 @@
 
 
 <div class="col-1">
-    <div id='card' class="card border-info" style="max-width: 18rem; margin-left: 50px; height: 250px; width: 350px;">
+    <div id='card' class="card border-info" style="max-width: 18rem; margin-left: 50px; height: 100%; ">
         <div class="card-header" style="border-color: rgb(71, 209, 233);">
             <span style='font-weight: 500;'>TOP 5 SUBBLUEDITS:</span>
         </div>
@@ -10,10 +10,11 @@
                 {% for sub in subs %}
                 <tr>
                     <td><a style='font-weight: 500;' class="sub-link" href='{% url "subbluedit" sub.name %}'>{{sub.name}}:</a></td>  
-                    <td style="padding-left: 10px;">{{sub.member_count}} {% if sub.member_count == 1 %} member {% else %} members {% endif %}</td>
+                    <td style="padding-left: 10px; text-align: right; width: 57%;">{{sub.member_count}} {% if sub.member_count == 1 %} member {% else %} members {% endif %}</td>
                 </tr>
                 {% endfor %}
             </table>
+            <br>
         </div>
     </div>
 </div>

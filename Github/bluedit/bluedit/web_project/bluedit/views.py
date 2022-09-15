@@ -42,7 +42,7 @@ def register(request):
     else:
         username = request.POST['username']
         if is_special(username) == True:
-            message = 'Username must contain only letters and numbers'
+            message = "'Username' must contain only letters and numbers"
             return render(request, 'bluedit/register.html', {
                 'message': message
             })
@@ -428,7 +428,7 @@ def subcreate(request):
         if f.is_valid():
             name = request.POST['name']
             if is_special(name) == True:
-                message = "Subbluedit name must contain only letters and numbers"
+                message = "'Subbluedit name' must contain only letters and numbers"
                 return render(request, 'bluedit/subcreate.html', {
                     'message': message,
                     'form': form,
