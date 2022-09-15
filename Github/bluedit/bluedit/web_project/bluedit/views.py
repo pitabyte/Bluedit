@@ -9,7 +9,7 @@ from django.db.models.query import QuerySet
 import datetime
 from django.core.paginator import Paginator
 from datetime import timezone, timedelta
-from bluedit.helpers import time_passed, comment_list, post_list, get_comment, join_or_leave, comment_list, date_to_time, search_by_letter
+from bluedit.helpers import time_passed, comment_list, post_list, get_comment, join_or_leave, comment_list, date_to_time, search_by_letter, is_special
 from random import randint
 
 
@@ -41,6 +41,11 @@ def register(request):
         return render(request, 'bluedit/register.html')
     else:
         username = request.POST['username']
+        if is_special(username) == True:
+            message = 'Username must contain only letters and numbers'
+            return render(request, 'bluedit/register.html', {
+                'message': message
+            })
         check = User.objects.filter(username=username).exists()
         if check:
             message = 'This username already exists!'
@@ -413,14 +418,21 @@ def vote(request, type, id, vote_type, no_tree=None):
 
 @login_required(login_url='/login')
 def subcreate(request):
+    form = SubblueditForm()
     if request.method == 'GET':
-        form = SubblueditForm()
         return render(request, 'bluedit/subcreate.html', {
                     'form': form,
                 })
     else:
         f = SubblueditForm(request.POST)
         if f.is_valid():
+            name = request.POST['name']
+            if is_special(name) == True:
+                message = "Subbluedit name must contain only letters and numbers"
+                return render(request, 'bluedit/subcreate.html', {
+                    'message': message,
+                    'form': form,
+                })
             sub = f.save(commit=False)
             user_id = request.user.id
             user = User.objects.get(pk=user_id)

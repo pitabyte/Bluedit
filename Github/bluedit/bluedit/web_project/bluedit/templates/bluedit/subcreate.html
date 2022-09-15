@@ -7,6 +7,7 @@
 <div class="row justify-content-center">
   <div class="col-6">
   <form method="post" action="{% url 'subcreate' %}">
+      <div style="color: red; margin-bottom: 5px;" >{{message}}</div>
     {% csrf_token %}
         {{ form|crispy }}
       

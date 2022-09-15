@@ -221,5 +221,13 @@ def search_by_letter(query, base):
         letter_counter += 1
         if letter_counter == len(query):
             return base
+
+def is_special(word):
+    for char in word:
+        if not char.isdigit() and not char.isalpha():
+            return True
+    return False
+
+
         
 
