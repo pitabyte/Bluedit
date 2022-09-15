@@ -23,6 +23,7 @@
     <div class="col-7">
       <form method="post" action="{% url 'submit' %}">
         {% csrf_token %}
+        <div style="color: red; margin-bottom: 5px;" >{{message}}</div>
           {{ form.title|as_crispy_field }}
           {{ form.description|as_crispy_field }}
           {{ form.image.as_hidden }}

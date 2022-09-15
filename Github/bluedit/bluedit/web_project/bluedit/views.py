@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import QueryDict
 from django.db.models.query import QuerySet
-import datetime
+import datetime, requests
 from django.core.paginator import Paginator
 from datetime import timezone, timedelta
 from bluedit.helpers import time_passed, comment_list, post_list, get_comment, join_or_leave, comment_list, date_to_time, search_by_letter, is_special
@@ -119,8 +119,28 @@ def submit(request, sub_name=None):
             post.user = user
             if post.image == 'http://www.dummy.url':
                 post.image = None
-            elif post.description == 'http://www.dummy.url':
+            elif post.description == 'http://www.dummy.url': #means that it was an image post
                 post.description = None
+                #check if URL leads to an image
+                image_formats = ("image/png", "image/jpeg", "image/jpg")
+                response = requests.head(post.image)
+                content_type = response.headers.get('content-type')
+                if content_type not in image_formats:
+                    message = 'Invalid image URL'
+                    if not sub_name:
+                        form = PostForm(initial={'image': 'http://www.dummy.url'})
+                        return render(request, 'bluedit/submit.html', {
+                            'form': form,
+                            'message': message
+                        })
+                    else:
+                        sub = Subbluedit.objects.get(name=sub_name)
+                        form = PostSubForm(initial={'subbluedit': sub, 'image': 'http://www.dummy.url'})
+                        return render(request, 'bluedit/submit.html', {
+                            'form': form,
+                            'sub_name': sub_name,
+                            'message': message
+                        })
             post.save()
             return HttpResponseRedirect(reverse("post", args=[post.id]))
         else:
