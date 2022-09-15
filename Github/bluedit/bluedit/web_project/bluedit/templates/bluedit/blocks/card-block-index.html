@@ -6,11 +6,11 @@
             <span style='font-weight: 500;'>TOP 5 SUBBLUEDITS:</span>
         </div>
         <div class="card-text">
-            <table>
+            <table style="width: 92%;">
                 {% for sub in subs %}
                 <tr>
                     <td><a style='font-weight: 500;' class="sub-link" href='{% url "subbluedit" sub.name %}'>{{sub.name}}:</a></td>  
-                    <td style="padding-left: 10px; text-align: right; width: 57%;">{{sub.member_count}} {% if sub.member_count == 1 %} member {% else %} members {% endif %}</td>
+                    <td style="padding-left: 10px; text-align: right;">{{sub.member_count}} {% if sub.member_count == 1 %} member {% else %} members {% endif %}</td>
                 </tr>
                 {% endfor %}
             </table>
