@@ -448,6 +448,14 @@ def subcreate(request):
         f = SubblueditForm(request.POST)
         if f.is_valid():
             name = request.POST['name']
+            check = Subbluedit.objects.filter(name=name).exists()
+            print(check)
+            if check:
+                message = "This subbluedit already exists"
+                return render(request, 'bluedit/subcreate.html', {
+                    'message': message,
+                    'form': form,
+                })
             if is_special(name) == True:
                 message = "'Subbluedit name' must contain only letters and numbers"
                 return render(request, 'bluedit/subcreate.html', {
@@ -463,6 +471,13 @@ def subcreate(request):
             sub.member_count += 1
             sub.save()
             return HttpResponseRedirect(reverse("subbluedit", args=[sub.name]))
+        else:
+            print(f.errors)
+            message = "This Subbluedit already exists"
+            return render(request, 'bluedit/subcreate.html', {
+                'message': message,
+                'form': form,
+            })
 
 
 def subbluedit(request, name):
