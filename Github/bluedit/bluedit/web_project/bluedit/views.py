@@ -159,7 +159,7 @@ def post(request, post_id):
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         message = "Sorry, this page doesn't exist"
-        return render(request, 'bluedit/post3.html', {
+        return render(request, 'bluedit/apology.html', {
             'message': message
         }
         )
