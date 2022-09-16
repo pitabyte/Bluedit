@@ -21,7 +21,7 @@ td {
 
 .title-view {
     font-size: 22px;
-    color: #4682B4;
+    color: #1e7db4;
     font-weight: 500;
     width: 100%;
     overflow-wrap: anywhere;
@@ -29,7 +29,7 @@ td {
 
 .title-view:hover {
     text-decoration:none;
-    color: #4682B4;
+    color: #1e7db4;
 }
 
 #post-description {
