@@ -5,6 +5,7 @@ This app is a Reddit clone. Check out the live server [here](https://ancient-sie
 # Key Features
 
 * Login and Registration
+* Ability to post, comment, edit, reply, delete and to create a subreddit
 * Dynamic upvoting, editing and replying
 * Dynamic search bar
 * Nested comments
