@@ -1,6 +1,6 @@
 # Bluedit
 
-This app is a Reddit clone.
+This app is a Reddit clone. Live server is [here](https://ancient-sierra-83549.herokuapp.com/)
 
 ## Getting Started
 To clone and run this application, you'll need [Git](https://git-scm.com) installed on your computer. From your command line:
