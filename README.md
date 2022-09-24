@@ -3,11 +3,6 @@
 Reddit clone
 
 ## Getting Started
-Run this code to clone project repository:
-
-```
-
-```
 To clone and run this application, you'll need [Git](https://git-scm.com) installed on your computer. From your command line:
 
 ```bash
