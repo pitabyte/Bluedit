@@ -1,6 +1,6 @@
 # Bluedit
 
-Reddit clone
+This app is a Reddit clone.
 
 ## Getting Started
 To clone and run this application, you'll need [Git](https://git-scm.com) installed on your computer. From your command line:
