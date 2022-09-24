@@ -3,16 +3,22 @@
 {% if action == 'search' %}
     <div class='search-box' id="search-results">
         <div class="card" id="card-results">
-            {% for sub in final_results %}
-            <li>
-                <form action="{% url 'subbluedit' sub.name %}">
-                    <button type='submit' style='text-align: left;' class="result-button">
-                        <div style="font-weight: 500; color: rgb(78, 78, 78);">b/{{sub.name}}</div>
-                        <div style="font-size: 12px; color:rgb(114, 112, 112);">{{sub.member_count}} {% if sub.member_count == 1 %} member {% else %} members {% endif %}</div>
-                    </button>
-                </form>
-            </li>
-            {% endfor %}
+            {% if final_results %}
+                {% for sub in final_results %}
+                <li>
+                    <form action="{% url 'subbluedit' sub.name %}">
+                        <button type='submit' style='text-align: left;' class="result-button">
+                            <div style="font-weight: 500; color: rgb(78, 78, 78);">b/{{sub.name}}</div>
+                            <div style="font-size: 12px; color:rgb(114, 112, 112);">{{sub.member_count}} {% if sub.member_count == 1 %} member {% else %} members {% endif %}</div>
+                        </button>
+                    </form>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li style="margin-left: 5px;">
+                    No results
+                </li>
+            {% endif %}
         </div>
         
     </div>

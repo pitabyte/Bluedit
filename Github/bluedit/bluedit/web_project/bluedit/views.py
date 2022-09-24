@@ -621,15 +621,11 @@ def search(request):
             final_results = Subbluedit.objects.all().order_by('-member_count')[:4]
         else:
             final_results = Subbluedit.objects.filter(name__in=results).order_by('-member_count')[:4]
-            for result in final_results:
-                print(result.name)
         return render(request, 'bluedit/htmx/search-box.html', {
             'action': action,
             'final_results': final_results
         })
     elif request.method == 'GET':
-        print('hello')
-        print(request.GET.get('search'))
         action = 'close'
         return render(request, 'bluedit/htmx/search-box.html', {
             'action': action
