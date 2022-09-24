@@ -1,13 +1,14 @@
 # Bluedit
 
-This app is a Reddit clone. Check out the live server [here](https://ancient-sierra-83549.herokuapp.com/)
+This app is a Reddit clone. Check out the live server [here](https://ancient-sierra-83549.herokuapp.com/).
 
 # Key Features
 
 * Login and Registration
 * Dynamic upvoting, editing and replying
-* Search bar
-* 
+* Dynamic search bar
+* Nested comments
+* And more...
 
 ## How to use
 To clone and run this application, you'll need [Git](https://git-scm.com) installed on your computer. From your command line:
@@ -29,7 +30,7 @@ $ python3 manage.py runserver
 ### Built with
 
 * Python + Django
-* HTML, CSS, Javascript
+* HTML, CSS, JavaScript
 * HTMX
 
 
