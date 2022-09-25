@@ -200,7 +200,7 @@ def post(request, post_id):
     sub = Subbluedit.objects.get(pk=post.subbluedit.id)
     type = join_or_leave(request, sub.name)
     member_count = post.subbluedit.members.all().count()
-    return render(request, 'bluedit/post4.html', {
+    return render(request, 'bluedit/post.html', {
             'post': post,
             'post_type': post_type,
             'commentf': commentf,
@@ -683,7 +683,7 @@ def user(request, username):
     time = list_of_two[0]
     unit = list_of_two[1]
     unit.strip()
-    return render(request, 'bluedit/user2.html', {
+    return render(request, 'bluedit/user.html', {
         'comments': comments,
         'profile_user': profile_user,
         'zipped': zipped,
