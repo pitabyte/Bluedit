@@ -28,7 +28,7 @@ $ pip install -r requirements.txt
 $ python3 manage.py runserver
 ```
 
-### Built with
+## Built with
 
 * Python + Django
 * HTML, CSS, JavaScript
